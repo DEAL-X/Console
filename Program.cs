@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.ClearScript;
 using Microsoft.ClearScript.JavaScript;
 using Microsoft.ClearScript.V8;
+using MiMFa.Core.Resources;
 using MiMFa.Engine.Core;
 using MiMFa.Engine.Put;
 
@@ -68,7 +70,7 @@ namespace MiMFa.Engine.DEAL.Console
             Interpreter.AddHostType("application", typeof(Program));
             Interpreter.AddHostType("console", typeof(System.Console));
 
-            Interpreter.AddHostObject("core", new HostTypeCollection(
+            Interpreter.AddHostObject("Core", new HostTypeCollection(
                     "mscorlib",
                     "System",
                     "System.Core",
@@ -169,15 +171,6 @@ namespace MiMFa.Engine.DEAL.Console
 
         public static void Display(object value)
         {
-            // Resolve JavaScript Promises converted to .NET Tasks.
-            while (value is Task task && DisplayMode > 0)
-            {
-                task.GetAwaiter().GetResult();
-
-                var result = task.GetType().GetProperty("Result");
-                value = result?.GetValue(task);
-            }
-
             switch (DisplayMode)
             {
                 case 0:
@@ -194,6 +187,9 @@ namespace MiMFa.Engine.DEAL.Console
                 case 4:
                     DisplayJson(value, Newtonsoft.Json.Formatting.Indented);
                     break;
+                case 5:
+                    DisplaySpecial(value);
+                    break;
                 case 9:
                 default:
                     DisplayHybrid(value);
@@ -203,26 +199,87 @@ namespace MiMFa.Engine.DEAL.Console
         public static void DisplayObject(object value)
         {
             if (!(value is Undefined) && !(value is VoidResult))
+                System.Console.WriteLine(value);
+        }
+        public static void DisplaySpecial(object value)
+        {
+            // Resolve JavaScript Promises converted to .NET Tasks.
+            while (value is Task task && DisplayMode > 0)
+            {
+                task.GetAwaiter().GetResult();
+
+                var result = task.GetType().GetProperty("Result");
+                value = result?.GetValue(task);
+            }
+
+            if (!(value is Undefined) && !(value is VoidResult))
                 if (value is LogEventArgs)
                     System.Console.WriteLine(((LogEventArgs)value).ToString());
                 else if (value is IEnumerable<LogEventArgs>)
                     foreach (var item in value as IEnumerable<LogEventArgs>)
-                        System.Console.WriteLine(item.ToString());
-                else
-                    System.Console.WriteLine(value);
+                        DisplaySpecial(item);
+                else if (value is Process)
+                    System.Console.WriteLine($"{((Process)value).MainWindowTitle}\t ({((Process)value).ProcessName})\t {((Process)value).Id}\t ({((Process)value).SessionId})");
+                else if (value is IResourceEntry)
+                    System.Console.WriteLine($"{(((IResourceEntry)value).IsFile ? "FILE" : "")}{(((IResourceEntry)value).IsFile && ((IResourceEntry)value).IsFolder ? "|" : "")}{(((IResourceEntry)value).IsFolder ? "FOLDER" : "")}\t {((IResourceEntry)value).FullName}");
+                else if (value is IEnumerable<IResourceEntry>)
+                    foreach (var item in value as IEnumerable<IResourceEntry>)
+                        DisplaySpecial(item);
+                else if (value is IEnumerable<IEnumerable<string>>)
+                    foreach (var item in value as IEnumerable<IEnumerable<string>>)
+                        System.Console.WriteLine(string.Join("\t ", item));
+                else if (value is IEnumerable<string>)
+                    foreach (var item in value as IEnumerable<string>)
+                        System.Console.WriteLine(item);
+                else if (value is IEnumerable<IEnumerable<KeyValuePair<string, string>>>)
+                {
+                    var ind = 0;
+                    foreach (var item in value as IEnumerable<IEnumerable<KeyValuePair<string, string>>>)
+                        if (ind++ < 1)
+                        {
+                            System.Console.WriteLine(string.Join("\t ", item.Select(v => v.Key)));
+                            System.Console.WriteLine(string.Join("\t ", item.Select(v => v.Value)));
+                        }
+                        else System.Console.WriteLine(string.Join("\t ", item.Select(v => v.Value)));
+                }
+                else if (value is IEnumerable<KeyValuePair<string, string>>)
+                    foreach (var item in value as IEnumerable<KeyValuePair<string, string>>)
+                        System.Console.WriteLine(string.Join(":\t ", item.Key, item.Value));
+                else System.Console.WriteLine(value);
         }
         public static void DisplayJson(object value, Newtonsoft.Json.Formatting? flags = null)
         {
+            // Resolve JavaScript Promises converted to .NET Tasks.
+            while (value is Task task && DisplayMode > 0)
+            {
+                task.GetAwaiter().GetResult();
+
+                var result = task.GetType().GetProperty("Result");
+                value = result?.GetValue(task);
+            }
             if (value != null && !(value is Undefined) && !(value is VoidResult))
                 System.Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(value, flags?? Newtonsoft.Json.Formatting.Indented));
         }
         public static void DisplayHybrid(object value)
         {
+            // Resolve JavaScript Promises converted to .NET Tasks.
+            while (value is Task task && DisplayMode > 0)
+            {
+                task.GetAwaiter().GetResult();
+
+                var result = task.GetType().GetProperty("Result");
+                value = result?.GetValue(task);
+            }
+
             if (
                 value is string ||
+                value is Process ||
+                value is IEnumerable<IResourceEntry> ||
                 value is LogEventArgs ||
-                value is IEnumerable<LogEventArgs>
-            ) DisplayObject(value);
+                value is IEnumerable<LogEventArgs> ||
+                value is IEnumerable<string> ||
+                value is IEnumerable<IEnumerable<string>>
+            ) DisplaySpecial(value);
             else DisplayJson(value);
         }
 
