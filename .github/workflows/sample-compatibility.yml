@@ -58,7 +58,8 @@ jobs:
         run: |
           $installer = Join-Path $env:RUNNER_TEMP 'dotnet-install.ps1'
           Invoke-WebRequest 'https://dot.net/v1/dotnet-install.ps1' -OutFile $installer
-          & $installer -Runtime dotnet -Version 5.0.17 -Architecture x86 -InstallDir ${env:ProgramFiles(x86)}\\dotnet
+          $x86Dotnet = Join-Path ${env:ProgramFiles(x86)} 'dotnet'
+          & $installer -Runtime dotnet -Version 5.0.17 -Architecture x86 -InstallDir $x86Dotnet
 
       - name: Build Console and referenced engines
         working-directory: Console
