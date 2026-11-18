@@ -1,10 +1,11 @@
-// Practical: collect page titles and headings from a list of websites.
-// The browser object must be initialized by the host before this file runs.
+// Practical: collect page titles and heading markup from several websites.
+// Requires an installed Chrome browser (the default Browser driver).
 // HOW TO USE:
 // Use Sample/practicals/Web-Scraping-1;
 
 Use deal/core;
 Use deal/web;
+Use console;
 
 Consider urls be [
     "https://example.com/",
@@ -12,15 +13,15 @@ Consider urls be [
 ];
 Consider results be [];
 
-// Open one tab, then reuse it for each address.
+// Open one tab and reuse the same BrowserTab for each address.
 Consider tab be browser.open("about:blank");
 For each url of urls,
     Try,
-        browser.tab.navigate(url);
-        Consider title be browser.tab.window.document.title;
-        Consider headings be browser.tab.window.document.querySelectorAll("h1, h2, h3");
-        Append results, { url: browser.tab.url, title: title, headings: headings };
+        tab.Navigate(url);
+        Consider title be tab.Title;
+        Consider headings be tab.Window.Document.QuerySelectorAll("h1, h2, h3");
+        Append results, { url: tab.Url, title: title, headings: JSON.parse(headings || "[]") };
     Catch problem,
-        Log warning "Could not scrape " + url + ": " + problem;
+        Log.warning "Could not scrape " + url + ": " + problem;
 
 Print results;
