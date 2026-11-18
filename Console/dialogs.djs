@@ -1,5 +1,4 @@
 ﻿use deal/core;
-use console;
 
 // To write a message line
 command alert(message = null) {
