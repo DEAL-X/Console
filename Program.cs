@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ClearScript;
@@ -167,6 +168,15 @@ namespace MiMFa.Engine.DEAL.Console
                 Display(Engine.Execute(value));
             }
             catch (Exception ex) { Engine.OnLogged(ex.Message, LogStatus.Error); }
+        }
+        public static float? Compare(string value1, string value2, string pattern = @"\w+|\W+", RegexOptions options = RegexOptions.None)
+        {
+            try
+            {
+                return Engine.Compare(value1, value2, pattern, options);
+            }
+            catch (Exception ex) { Engine.OnLogged(ex.Message, LogStatus.Error); }
+            return null;
         }
 
         public static void Display(object value)

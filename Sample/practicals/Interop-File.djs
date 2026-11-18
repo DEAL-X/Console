@@ -1,6 +1,7 @@
 // Practical: export structured DEAL data through .NET resource APIs.
 // Requires ExtendedHostFunctions exposed as "host".
-// Use Samples/practicals/Interop-File.djs;
+// HOW TO USE:
+// Use Sample/practicals/Interop-File;
 
 Use deal/core;
 Use deal/make/object;

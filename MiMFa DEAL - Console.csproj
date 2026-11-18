@@ -88,109 +88,115 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Samples\practicals\Folder.djs">
+	  <None Update="Sample\practicals\Compare.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\practicals\File.djs">
+	  <None Update="Sample\practicals\File.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\practicals\Interop-File.djs">
+	  <None Update="Sample\practicals\Folder.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\practicals\Research-Catalog-Processing.djs">
+	  <None Update="Sample\practicals\Interop-File.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\practicals\Web-Scraping-1.djs">
+	  <None Update="Sample\practicals\Research-Catalog-Processing.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\practicals\Web-Scraping-2.djs">
+	  <None Update="Sample\practicals\Web-Scraping-1.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\practicals\Website-Collecting.djs">
+	  <None Update="Sample\practicals\Web-Scraping-2.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\README.md">
+	  <None Update="Sample\practicals\Website-Collecting.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\default.djs">
+	  <None Update="Sample\README.md">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\expected\Complex-Stress-Test.expected.js">
+	  <None Update="Sample\tutorials\1\01-Getting-Started.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\expected\DEAL-Stress-Test.expected.js">
+	  <None Update="Sample\tutorials\2\02-Browser-and-Fetch.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\expected\Hierarchical-Keyword-Spelling.expected.js">
+	  <None Update="Sample\tutorials\3\03-Commands.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\expected\JavaScript-Stress-Test.expected.js">
+	  <None Update="Sample\tutorials\4\04-CLR-Object-Interop.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\expected\Real-Stress-Test.expected.js">
+	  <None Update="Sample\tutorials\4\04-DotNet-Interop.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\fixtures\Local-Page-Smoke-Test.html">
+	  <None Update="Test\default.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\inputs\Complex-Stress-Test.djs">
+	  <None Update="Test\expects\Complex-Stress-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\inputs\DEAL-Stress-Test.djs">
+	  <None Update="Test\expects\DEAL-Stress-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\inputs\JavaScript-Stress-Test.djs">
+	  <None Update="Test\expects\JavaScript-Stress-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\inputs\Namespaces.djs">
+	  <None Update="Test\expects\Namespaces.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\inputs\Real-Stress-Test.djs">
+	  <None Update="Test\expects\Real-Stress-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\README.md">
+	  <None Update="Test\fixtures\Local-Page-Smoke-Test.html">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\results\Complex-Stress-Test.result.js">
+	  <None Update="Test\inputs\Complex-Stress-Test.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\results\DEAL-Stress-Test.result.js">
+	  <None Update="Test\inputs\DEAL-Stress-Test.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\results\JavaScript-Stress-Test.result.js">
+	  <None Update="Test\inputs\JavaScript-Stress-Test.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\results\Real-Stress-Test.result.js">
+	  <None Update="Test\inputs\Namespaces.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\runtime\Browser-Driver-Smoke-Test.js">
+	  <None Update="Test\inputs\Real-Stress-Test.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\runtime\Browser-Object-Model-Smoke-Test.js">
+	  <None Update="Test\outputs\Complex-Stress-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\runtime\Clr-Interop-Smoke-Test.js">
+	  <None Update="Test\outputs\DEAL-Stress-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\runtime\CLR-Object-Interop-Smoke-Test.js">
+	  <None Update="Test\outputs\JavaScript-Stress-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tests\runtime\Native-Web-Smoke-Test.js">
+	  <None Update="Test\outputs\Real-Stress-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tutorials\01-Getting-Started.djs">
+	  <None Update="Test\README.md">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tutorials\02-Browser-and-Fetch.djs">
+	  <None Update="Test\runtimes\Browser-Driver-Smoke-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tutorials\03-Commands.djs">
+	  <None Update="Test\runtimes\Browser-Object-Model-Smoke-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tutorials\04-CLR-Object-Interop.djs">
+	  <None Update="Test\runtimes\Clr-Interop-Smoke-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Samples\tutorials\04-DotNet-Interop.djs">
+	  <None Update="Test\runtimes\CLR-Object-Interop-Smoke-Test.js">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Test\runtimes\Native-Web-Smoke-Test.js">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Test\runtimes\Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

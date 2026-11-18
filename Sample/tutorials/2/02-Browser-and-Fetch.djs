@@ -2,6 +2,8 @@
 // Browser convenience methods and browser properties are synchronous.
 // The .NET host selects Chrome (default), Edge, or Firefox before running this file.
 // `Fetch`, `load` and `go` are asynchronous, so await thair results and response body.
+// HOW TO USE:
+// Use Sample/tutorials/2;
 
 Use deal/core;
 Use deal/web;

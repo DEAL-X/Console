@@ -1,8 +1,9 @@
 // Practical: normalize, validate, deduplicate, and persist a research catalog.
 // This self-contained fixture demonstrates the workflow boundaries described in
 // the DEAL research article. It performs no live acquisition.
-//
 // The output is split into accepted JSONL records and an explicit rejection log.
+// HOW TO USE:
+// Use Sample/practicals/Research-Catalog-Processing;
 
 Use deal/core;
 Use deal/make;

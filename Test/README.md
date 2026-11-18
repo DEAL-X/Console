@@ -1,20 +1,20 @@
 # Compiler and runtime tests
 
 - `inputs/` contains DEAL/JavaScript stress-test source files.
-- `expected/` contains the expected JavaScript output for each stress test.
-- `results/` contains captured compiler result snapshots.
-- `runtime/` contains executable smoke tests for browser drivers, the browser object model, native web integration, and JavaScript-to-CLR collection interoperability.
+- `outputs/` contains captured compiler result snapshots.
+- `expects/` contains the expected JavaScript output for each stress test.
+- `runtimes/` contains executable smoke tests for browser drivers, the browser object model, native web integration, and JavaScript-to-CLR collection interoperability.
 - `fixtures/` contains local files used by runtime tests.
 
 ## How to use
 
 ```deal
 use console;
-use samples/tests;
+use test;
 
 test "Test-File-Name-Without-Extension";
 // or
-// save(path be (local path `./Samples/tests/results/${name}.js`), compile `./Samples/tests/inputs/${name}.djs`) then start openResultsApp by path;
+// save(path be (local path `./Tests/outputs/${name}.js`), compile `./Tests/inputs/${name}.djs`) then start openResultsApp by path;
 ```
 
 ## Runtime smoke tests
@@ -26,6 +26,6 @@ test "Test-File-Name-Without-Extension";
 
 ## Compiler stress tests
 
-For each stress test, compare the generated JavaScript from `inputs/` with the corresponding file in `expected/`. The `results/` copy records output captured from the implementation when it was saved. These files are kept separate so differences are easy to inspect.
+For each stress test, compare the generated JavaScript from `inputs/` with the corresponding file in `expects/`. The `outputs/` copy records output captured from the implementation when it was saved. These files are kept separate so differences are easy to inspect.
 
 - `Hierarchical-Keyword-Spelling.djs` — regression fixture for the three equivalent spellings `make StRing`, `make .StRing`, and `make.StRing`. Each expression must compile to exactly `Make.string`; the three corresponding lines in `expected/Hierarchical-Keyword-Spelling.expected.js` are the individual expected-output assertions.

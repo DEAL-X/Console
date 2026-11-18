@@ -1,5 +1,5 @@
 // HOW TO USE:
-// Use Samples/practicals/Web-Scraping-2.djs;
+// Use Sample/practicals/Web-Scraping-2;
 
 Log subject "The process is started";
 

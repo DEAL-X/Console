@@ -1,5 +1,5 @@
 ﻿use deal/core;
-use deal/core;
+use deal/local;
 
 command snippetPath = application.Engine.Resource.TempDirectory + 'snippet.djs';
 command snippet() => {
@@ -12,7 +12,7 @@ command snippet() => {
 		}
 		else {
 			mode = arguments[0];
-			path= arguments[1];
+			path = arguments[1];
 		}
 	} else if(arguments.length > 0){
 		if("string" === typeof arguments[0])
@@ -32,3 +32,4 @@ command snippet() => {
 command evaluate(value = null) => application.Evaluate(value ?? snippetPath);
 command compile(value = null) => application.Compile(value ?? snippetPath);
 command execute(value = null) => application.Execute(value ?? snippetPath);
+command compare() => application.Compare(...arguments);

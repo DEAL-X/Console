@@ -1,5 +1,7 @@
 // Tutorial 04: Convert JavaScript values and collections for .NET APIs.
 // The host must expose Microsoft.ClearScript.ExtendedHostFunctions as "host".
+// HOW TO USE:
+// Use Sample/tutorials/4;
 
 Use deal/core;
 Use deal/make/object;

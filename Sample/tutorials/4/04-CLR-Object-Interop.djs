@@ -4,6 +4,8 @@
 //
 // Load deal/make (which includes deal/make/object) before running this tutorial.
 // Type names are CLR names; values must be assignable to the requested element type.
+// HOW TO USE:
+// Use Sample/tutorials/4;
 
 Use deal/core;
 Use deal/make;

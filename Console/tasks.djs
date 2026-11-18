@@ -1,19 +1,19 @@
 ﻿use deal/core;
 
 // To open an application
-command #start::string() {
+command start() {
 	if(arguments.length < 1) return;
 	return Core.System.Diagnostics.Process.Start(...arguments);
 }
 
 // To open an application or restart current-one
-command #restart::string() {
+command restart() {
 	if(arguments.length < 1) return application.Restart();
 	return Core.System.Diagnostics.Process.Start(...arguments);
 }
 
 // To open an application as a dialog
-command #stay::string() {
+command stay() {
 	if(arguments.length < 1) return;
 	return Core.System.Diagnostics.Process.Start(...arguments).WaitForExit();
 }

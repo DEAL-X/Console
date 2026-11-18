@@ -1,5 +1,5 @@
 // HOW TO USE:
-// Use Samples/practicals/Folder.djs;
+// Use Sample/practicals/Folder;
 
 Use deal/core;
 Use deal/data/local;
