@@ -203,7 +203,7 @@
 
 
 	<ItemGroup>
-	  <None Update="Sample\\**\\*">
+	  <None Update="Sample/**/*">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
