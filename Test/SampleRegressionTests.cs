@@ -68,10 +68,14 @@ namespace MiMFa.Engine.DEAL.Console
                         }
 
                         var input = new Input(File.ReadAllText(path), Path.GetFullPath(path));
+                        int errorsBeforeCompilation = Program.Engine.Errors.Count();
                         var output = Program.Engine.Compile(input);
-                        if (output.Errors.Count > 0)
+                        var compileLogErrors = Program.Engine.Errors.Skip(errorsBeforeCompilation)
+                            .Select(error => error.ToString()).ToArray();
+                        if (output.Errors.Count > 0 || compileLogErrors.Length > 0)
                         {
-                            failures.Add(relative + " [compile]: " + string.Join(" | ", output.Errors));
+                            var details = compileLogErrors.Concat(output.Errors).ToArray();
+                            failures.Add(relative + " [compile]: " + string.Join(" | ", details));
                             continue;
                         }
 
@@ -119,7 +123,7 @@ namespace MiMFa.Engine.DEAL.Console
                 System.Console.SetOut(originalOutput);
             }
 
-            System.Console.WriteLine("Sample compatibility: " + (samples.Length - failures.Count) + "/" + samples.Length + " passed.");
+            System.Console.WriteLine("Sample compatibility: " + samples.Length + " samples checked; " + failures.Count + " total failures.");
             if (failures.Count == 0)
             {
                 System.Console.WriteLine("All sample compilation and selected runtime checks passed.");
