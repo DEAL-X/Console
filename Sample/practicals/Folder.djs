@@ -8,8 +8,7 @@ Use deal/select;
 Use console;
 
 Consider entries be Array.from(Local.folder("Sample/fixtures/results"));
-Consider results be entries
-    .filter(item => item.IsFile && item.Name.toLowerCase().includes("namespaces"))
-    .map(item => item.Path);
+Consider paths be select "Path" from entries;
+Consider results be select any /Namespaces/i from paths;
 
 Print results;
