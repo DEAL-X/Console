@@ -1,33 +1,54 @@
+// Practical: collect search-result cards across a bounded number of pages.
+// This sample intentionally uses the BrowserDocument HTML-string API rather
+// than treating its serialized QuerySelectorAll result as live DOM elements.
 // HOW TO USE:
 // Use Sample/practicals/Web-Scraping-2;
 
-Log subject "The process is started";
+Use deal/core;
+Use deal/web;
+Use deal/data/file;
+Use console;
 
-Consider the query constant to be "DSL";
-Consider the normalFile constant to be the file (temporary file "normal.csv");
-Consider the finalFile constant to be the file (temporary file "final.csv");
+const query = "DSL";
+const tab = browser.open("about:blank");
+const normalFile = File(Temporary.path("normal-serp.jsonl"));
+const finalFile = File(Temporary.path("final-serp.jsonl"));
+let address = "https://www.google.com/search?q=" + encodeURIComponent(query);
+let pageCount = 0;
 
-Load http://google.com/search?q=${query};
+// Keep the example bounded; a live search page can change its markup at any time.
+while (address && pageCount < 3) {
+    tab.Navigate(address);
+    pageCount++;
 
-# ScrapeSERP
-	Begin,
-		Consider n be 0;
-		For each item of (all div[data-rpos] ), begin:
-			normalFile append the collect
-				* query as QUERY,
-				* (make normal (one a>h3 from item)) as title,
-				* (make normal (one div[data-sncf="1"] from item)) as description,
-				* (make normal ((one a:has(h3) from item).href)) as url;
-			Log message `The record ${++n} is fetched...`;
-		End;
-		Const nextButton = one a#pnnext;
-		If nextButton is not null, load http://google.com${nextButton.href}, then ScrapeSERP;
-		Else begin,
-			For each item of normalFile fields, If:
-				* The item description is not empty
-				* And (item description length > 20 or !item description match /\b\d{4}—\s*$/)
-				* And !finalRecords find ({ title: item title }),
-				finalRecords append the item;
-			Log subject "The process is ended";
-		End;
-	End;
+    const cards = JSON.parse(tab.Window.Document.QuerySelectorAll("div[data-rpos]") || "[]");
+    for each markup of cards,
+        Consider linkMatch be /<a\\b[^>]*href=["']([^"']+)["'][^>]*>[\\s\\S]*?<h3\\b[^>]*>([\\s\\S]*?)<\\/h3>/i.exec(markup);
+        If linkMatch,
+            Consider descriptionMatch be /<div[^>]*data-sncf=["']1["'][^>]*>([\\s\\S]*?)<\\/div>/i.exec(markup);
+            Consider record be {
+                query: query,
+                title: linkMatch[2].replace(/<[^>]*>/g, " ").replace(/&amp;/g, "&").trim(),
+                description: descriptionMatch ? descriptionMatch[1].replace(/<[^>]*>/g, " ").replace(/&amp;/g, "&").trim() : "",
+                url: linkMatch[1]
+            };
+            normalFile.append(record);
+
+    const nextMarkup = tab.Window.Document.QuerySelector("a#pnnext");
+    const nextMatch = nextMarkup && /href=["']([^"']+)["']/i.exec(nextMarkup);
+    if (nextMatch) {
+        const nextUrl = nextMatch[1];
+        address = /^https?:/i.test(nextUrl) ? nextUrl : "https://www.google.com" + nextUrl;
+    } else address = null;
+}
+
+// Re-read the JSONL file, remove duplicate URLs, and persist the final records.
+const finalRecords = [];
+const seen = new Set();
+For each record of normalFile.fields,
+    If (record.url && !seen.has(record.url)),
+        seen.add(record.url);
+        Append finalRecords, record;
+
+finalFile.fields = finalRecords;
+Print { pages: pageCount, records: finalRecords };
