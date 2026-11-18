@@ -16,7 +16,7 @@ const posts = await response.json();
 const catalog = posts.map(post => ({
     id: post.id,
     title: String(post.title || "").trim(),
-    summary: String(post.body || "").replace(/\\s+/g, " ").trim()
+    summary: String(post.body || "").replace(/\s+/g, " ").trim()
 }));
 
 const output = File(Temporary.path("deal-api-catalog.jsonl"));
