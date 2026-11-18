@@ -1,5 +1,5 @@
 ﻿use deal/core;
-use deal/local;
+use deal/data/local;
 
 command snippetPath = application.Engine.Resource.TempDirectory + 'snippet.djs';
 command snippet() => {
