@@ -36,6 +36,12 @@ namespace MiMFa.Engine.DEAL.Console
             System.Console.OutputEncoding =
             System.Console.InputEncoding = System.Text.Encoding.UTF8;
 
+            if (args.Any(arg => string.Equals(arg, "--test-samples", StringComparison.OrdinalIgnoreCase)))
+            {
+                System.Environment.ExitCode = SampleRegressionTests.Run();
+                return;
+            }
+
             Initial();
             if (args.Length > 0)
                 foreach (var arg in args)
@@ -70,6 +76,7 @@ namespace MiMFa.Engine.DEAL.Console
 
             Interpreter.AddHostType("application", typeof(Program));
             Interpreter.AddHostType("console", typeof(System.Console));
+            Interpreter.AddHostObject("host", new ExtendedHostFunctions());
 
             Interpreter.AddHostObject("Core", new HostTypeCollection(
                     "mscorlib",
