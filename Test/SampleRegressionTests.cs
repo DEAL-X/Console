@@ -101,6 +101,17 @@ namespace MiMFa.Engine.DEAL.Console
                         }
                     }
                 }
+
+                RunClrSmokeTest(
+                    Path.Combine(root, "Test", "runtimes", "CLR-Object-Interop-Smoke-Test.js"),
+                    true,
+                    failures
+                );
+                RunClrSmokeTest(
+                    Path.Combine(root, "Test", "runtimes", "Clr-Interop-Smoke-Test.js"),
+                    false,
+                    failures
+                );
             }
             finally
             {
@@ -118,6 +129,51 @@ namespace MiMFa.Engine.DEAL.Console
             foreach (string failure in failures)
                 System.Console.Error.WriteLine("FAIL " + failure);
             return 1;
+        }
+
+        private static void RunClrSmokeTest(string path, bool invokeFunction, List<string> failures)
+        {
+            string name = Path.GetFileName(path);
+            bool initialized = false;
+            try
+            {
+                Program.Initial();
+                initialized = true;
+
+                var startupErrors = Program.Engine.Errors.Select(error => error.ToString()).ToArray();
+                if (startupErrors.Length > 0)
+                {
+                    failures.Add(name + " [startup]: " + string.Join(" | ", startupErrors));
+                    return;
+                }
+
+                int setupErrorsBefore = Program.Engine.Errors.Count();
+                Program.Engine.Execute("Use deal/make/object;");
+                var setupErrors = Program.Engine.Errors.Skip(setupErrorsBefore)
+                    .Select(error => error.ToString()).ToArray();
+                if (setupErrors.Length > 0)
+                {
+                    failures.Add(name + " [module setup]: " + string.Join(" | ", setupErrors));
+                    return;
+                }
+
+                string script = File.ReadAllText(path);
+                if (invokeFunction)
+                    script += Environment.NewLine + "clrObjectInteropSmokeTest(application);";
+                Program.Interpreter.Evaluate(script);
+            }
+            catch (Exception exception)
+            {
+                failures.Add(name + " [execute]: " + exception);
+            }
+            finally
+            {
+                if (initialized)
+                {
+                    try { Program.Final(); }
+                    catch (Exception exception) { failures.Add(name + " [shutdown]: " + exception.Message); }
+                }
+            }
         }
     }
 }
