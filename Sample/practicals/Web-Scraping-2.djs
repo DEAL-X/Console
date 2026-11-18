@@ -23,9 +23,9 @@ while (address && pageCount < 3) {
 
     const cards = JSON.parse(tab.Window.Document.QuerySelectorAll("div[data-rpos]") || "[]");
     for each markup of cards,
-        Consider linkMatch be /<a\\b[^>]*href=["']([^"']+)["'][^>]*>[\\s\\S]*?<h3\\b[^>]*>([\\s\\S]*?)<\\/h3>/i.exec(markup);
+        Consider linkMatch be /<a\b[^>]*href=["']([^"']+)["'][^>]*>[\s\S]*?<h3\b[^>]*>([\s\S]*?)<\/h3>/i.exec(markup);
         If linkMatch,
-            Consider descriptionMatch be /<div[^>]*data-sncf=["']1["'][^>]*>([\\s\\S]*?)<\\/div>/i.exec(markup);
+            Consider descriptionMatch be /<div[^>]*data-sncf=["']1["'][^>]*>([\s\S]*?)<\/div>/i.exec(markup);
             Consider record be {
                 query: query,
                 title: linkMatch[2].replace(/<[^>]*>/g, " ").replace(/&amp;/g, "&").trim(),
