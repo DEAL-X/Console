@@ -1,22 +1,25 @@
 // CLR collection interoperability smoke test.
 // Run after the host exposes ExtendedHostFunctions as "host" and loads deal/make.
-// Verifies the actual .NET collection types and the ResourceProvider overloads.
+// Checks EnableArrayConversion semantics and the script-friendly .NET overloads.
 
 function clrObjectInteropSmokeTest(application) {
     const resource = application.Engine.Resource;
     const values = ["first", "second", "third"];
+    const path = resource.Combine(["Temporary", "clr-object-interop-smoke.txt"]);
+    const binaryPath = resource.Combine(["Temporary", "clr-object-interop-bytes-smoke.bin"]);
+    const folderPath = resource.Combine(["Temporary", "clr-object-interop-folder"]);
 
     const clrArray = Make.arrayObject(values, "System.String");
-    if (clrArray.GetType().FullName !== "System.String[]")
-        throw new Error("Make.arrayObject did not create System.String[].");
+    if (!Array.isArray(clrArray) || clrArray.length !== 3 || clrArray[1] !== "second")
+        throw new Error("Make.arrayObject must return a JavaScript array with mapped values.");
 
     const clrStrings = Make.stringArrayObject(values);
-    if (clrStrings.GetType().FullName !== "System.String[]")
-        throw new Error("Make.stringArrayObject did not create System.String[].");
+    if (!Array.isArray(clrStrings) || clrStrings[0] !== "first")
+        throw new Error("Make.stringArrayObject must return a JavaScript array.");
 
     const clrBytes = Make.byteArrayObject([65, 66, 67]);
-    if (clrBytes.GetType().FullName !== "System.Byte[]")
-        throw new Error("Make.byteArrayObject did not create System.Byte[].");
+    if (!Array.isArray(clrBytes) || clrBytes.length !== 3 || Number(clrBytes[2]) !== 67)
+        throw new Error("Make.byteArrayObject must return a JavaScript byte array.");
 
     const clrList = Make.listObject(values, "System.String");
     if (clrList.GetType().GetGenericTypeDefinition().FullName !== "System.Collections.Generic.List`1" ||
@@ -48,40 +51,46 @@ function clrObjectInteropSmokeTest(application) {
     if (hashSet.Count !== 3)
         throw new Error("Make.hashSetObject returned an unexpected item count.");
 
-    const path = resource.Normalize("clr-object-interop-smoke.txt");
-    const binaryPath = resource.Normalize("clr-object-interop-bytes-smoke.bin");
     try {
-        // This call exercises the exact string[] overload that previously failed.
+        // JavaScript arrays are marshalled as object[] and converted in the host.
         resource.SetFileLines(path, clrArray, null);
-        if (resource.GetFileLine(path, 0, null) !== "first" ||
-            resource.GetFileLine(path, 2, null) !== "third")
-            throw new Error("The string[] ResourceProvider round-trip failed.");
+        resource.PrependFileLines(path, ["zero"], null);
+        resource.AppendFileLines(path, ["last"], null);
+        const saved = Make.array(resource.GetFileLines(path, null));
+        if (saved.length !== 5 || saved[0] !== "zero" || saved[4] !== "last")
+            throw new Error("The object[] Set/Prepend/AppendFileLines overloads failed.");
 
+        // The same object[] overload accepts the byte array without a CLR byte[] in script.
         resource.SetFileContents(binaryPath, clrBytes);
         const storedBytes = resource.GetFileContents(binaryPath);
-        if (Number(storedBytes[0]) !== 65 || Number(storedBytes[2]) !== 67)
-            throw new Error("The CLR byte[] ResourceProvider round-trip failed.");
+        if (!Array.isArray(storedBytes) || Number(storedBytes[0]) !== 65 || Number(storedBytes[2]) !== 67)
+            throw new Error("The object-based SetFileContents byte conversion failed.");
 
-        // List<string> and the concrete IEnumerable<string> implementation.
+        // Actual CLR generic collections continue to bind through IEnumerable<string>.
         resource.SetFileLines(path, clrList, null);
         resource.SetFileLines(path, clrEnumerable, null);
-        if (resource.GetFileLine(path, 0, null) !== "first" ||
-            resource.GetFileLine(path, 1, null) !== "second" ||
-            resource.GetFileLine(path, 2, null) !== "third")
-            throw new Error("The IEnumerable<string> ResourceProvider round-trip failed.");
+        const collectionLines = Make.array(resource.GetFileLines(path, null));
+        if (collectionLines.length !== 3 || collectionLines[0] !== "first" || collectionLines[2] !== "third")
+            throw new Error("The IEnumerable<string> ResourceProvider overload failed.");
+
+        resource.CreateDirectory(folderPath);
+        resource.SetFolderContents(folderPath, []);
+        if (Make.array(resource.GetFolderContents(folderPath, false)).length !== 0)
+            throw new Error("The object[] SetFolderContents overload failed.");
 
         return {
             passed: true,
-            arrayType: clrArray.GetType().FullName,
-            byteArrayType: clrBytes.GetType().FullName,
+            arrayRepresentation: "JavaScript Array",
+            byteRepresentation: "JavaScript Array",
             listType: clrList.GetType().FullName,
             dictionaryCount: dictionary.Count,
             dynamicObjectType: dynamicRecord.GetType().FullName,
             hashSetCount: hashSet.Count,
-            lineCount: 3
+            lineCount: collectionLines.length
         };
     } finally {
         resource.Delete(path);
         resource.Delete(binaryPath);
+        resource.Delete(folderPath);
     }
 }
