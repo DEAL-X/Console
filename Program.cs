@@ -36,6 +36,13 @@ namespace MiMFa.Engine.DEAL.Console
             System.Console.OutputEncoding =
             System.Console.InputEncoding = System.Text.Encoding.UTF8;
 
+            if (args.Any(arg => string.Equals(arg, "--test-clr-interop", StringComparison.OrdinalIgnoreCase)))
+            {
+                Directory.SetCurrentDirectory(AppContext.BaseDirectory);
+                System.Environment.ExitCode = SampleRegressionTests.RunClrInteropOnly();
+                return;
+            }
+
             if (args.Any(arg => string.Equals(arg, "--test-samples", StringComparison.OrdinalIgnoreCase)))
             {
                 // Run from the build output directory so the copied DEAL package modules,
