@@ -5,7 +5,7 @@
 // Use Sample/tutorials/4;
 
 Use deal/core;
-Use deal/make/object;
+Use deal/make;
 
 Consider values be ["alpha", "beta", "gamma"];
 Consider clrArray be Make.arrayObject(values, "System.String");
