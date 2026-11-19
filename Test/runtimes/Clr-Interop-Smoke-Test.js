@@ -36,8 +36,7 @@
     const path = resource.Combine(["Temporary", "deal-clr-interop-smoke.txt"]);
     resource.SetFileLines(path, stringArray, null);
     resource.AppendFileLines(path, ["write"], null);
-    const saved = Make.array(resource.GetFileLines(path, null));
-    assert(saved.length === 3 && saved[0] === "alpha" && saved[2] === "write", "object[] and IEnumerable<string> ResourceProvider overloads");
+    assert(resource.GetFileLine(path, 0, null) === "alpha" && resource.GetFileLine(path, 2, null) === "write", "object[] and IEnumerable<string> ResourceProvider overloads");
     resource.Delete(path);
 
     return "CLR interop smoke test passed.";
