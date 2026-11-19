@@ -191,7 +191,7 @@ namespace MiMFa.Engine.DEAL.Console
                 }
 
                 int setupErrorsBefore = Program.Engine.Errors.Count();
-                Program.Engine.Execute("Use deal/make/object;");
+                Program.Engine.Execute("Use deal/make;");
                 var setupErrors = Program.Engine.Errors.Skip(setupErrorsBefore)
                     .Select(error => error.ToString()).ToArray();
                 if (setupErrors.Length > 0)
