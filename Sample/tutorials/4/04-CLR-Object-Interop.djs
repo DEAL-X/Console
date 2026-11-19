@@ -1,5 +1,6 @@
-// Tutorial 04: Convert JavaScript values into real .NET collections.
+// Tutorial 04: JavaScript/.NET collection interoperability with EnableArrayConversion.
 // The Console host exposes ClearScript ExtendedHostFunctions as global "host".
+// JavaScript arrays stay JavaScript arrays; project-owned .NET APIs adapt object[].
 // HOW TO USE:
 // Use Sample/tutorials/4;
 
@@ -25,17 +26,19 @@ Consider pendingValues be Make.queueObject(values, "System.String");
 Consider recentValues be Make.stackObject(values, "System.String");
 Consider legacyValues be Make.arrayListObject(values);
 
-Consider outputPath be application.Engine.Resource.Normalize("clr-interop-array.txt");
+Consider outputPath be application.Engine.Resource.Combine(["Temporary", "clr-interop-array.txt"]);
 application.Engine.Resource.SetFileLines(outputPath, clrArray, null);
-Consider listPath be application.Engine.Resource.Normalize("clr-interop-list.txt");
+Consider listPath be application.Engine.Resource.Combine(["Temporary", "clr-interop-list.txt"]);
 application.Engine.Resource.SetFileLines(listPath, clrList, null);
-Consider enumerablePath be application.Engine.Resource.Normalize("clr-interop-enumerable.txt");
+Consider enumerablePath be application.Engine.Resource.Combine(["Temporary", "clr-interop-enumerable.txt"]);
 application.Engine.Resource.SetFileLines(enumerablePath, clrEnumerable, null);
+Consider binaryPath be application.Engine.Resource.Combine(["Temporary", "clr-interop-bytes.bin"]);
+application.Engine.Resource.SetFileContents(binaryPath, clrBytes);
 
 Print {
-    arrayType: clrArray.GetType().FullName,
-    stringArrayType: clrStrings.GetType().FullName,
-    byteArrayType: clrBytes.GetType().FullName,
+    arrayLength: clrArray.length,
+    stringArrayLength: clrStrings.length,
+    byteArrayLength: clrBytes.length,
     listType: clrList.GetType().FullName,
     dictionaryType: counts.GetType().FullName,
     convertedNumber: convertedNumber,
