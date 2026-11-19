@@ -50,6 +50,7 @@ function clrObjectInteropSmokeTest(application) {
     if (hashSet.Count !== 3)
         throw new Error("Make.hashSetObject returned an unexpected item count.");
 
+    // Exercise generic type definitions resolved through the host type collection.
     const queue = Make.queueObject(values, "System.String");
     const stack = Make.stackObject(values, "System.String");
     const linkedList = Make.linkedListObject(values, "System.String");
