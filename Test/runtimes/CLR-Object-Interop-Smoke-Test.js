@@ -81,6 +81,8 @@ function clrObjectInteropSmokeTest(application) {
         resource.AppendFileText(textPath, "after", "utf-8");
         if (resource.GetFileText(textPath, "utf-8") !== "beforepayloadafter")
             throw new Error("The text encoding overloads failed.");
+        if (resource.GetFileText(textPath, undefined) !== "beforepayloadafter")
+            throw new Error("Undefined encoding values must use the default encoding.");
         if (resource.GetFileLines(textPath, "utf-8") == null ||
             resource.GetContents(textPath, false, "utf-8") == null)
             throw new Error("The encoding-aware line/content overloads failed.");
