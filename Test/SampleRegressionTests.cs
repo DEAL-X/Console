@@ -148,9 +148,9 @@ namespace MiMFa.Engine.DEAL.Console
             RequireOverload(typeof(ResourceBase), "SetFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
             RequireOverload(typeof(ResourceBase), "PrependFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
             RequireOverload(typeof(ResourceBase), "AppendFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
-            RequireOverload(typeof(BrowserPermissions), "Grant", new[] { typeof(string), typeof(object[]) }, failures);
-            RequireOverload(typeof(BrowserPermissions), "GrantAsync", new[] { typeof(string), typeof(object[]) }, failures);
-            RequireOverload(typeof(FirefoxDriver), "SetArguments", new[] { typeof(object[]) }, failures);
+            RequireOverload(typeof(BrowserPermissions), "Grant", new[] { typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(BrowserPermissions), "GrantAsync", new[] { typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(FirefoxDriver), "SetArguments", new[] { typeof(object) }, failures);
 
             try
             {
