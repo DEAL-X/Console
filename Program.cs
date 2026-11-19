@@ -38,6 +38,9 @@ namespace MiMFa.Engine.DEAL.Console
 
             if (args.Any(arg => string.Equals(arg, "--test-samples", StringComparison.OrdinalIgnoreCase)))
             {
+                // Run from the build output directory so the copied DEAL package modules,
+                // initial.djs, samples, and runtime fixtures resolve exactly as in a normal launch.
+                Directory.SetCurrentDirectory(AppContext.BaseDirectory);
                 System.Environment.ExitCode = SampleRegressionTests.Run();
                 return;
             }
