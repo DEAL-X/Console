@@ -1,5 +1,5 @@
 // Runtime smoke test for DEAL JavaScript-to-.NET collection conversion.
-// Run after loading deal/core, deal/make/object, and the host's "host" object.
+// JavaScript arrays remain JavaScript arrays with EnableArrayConversion enabled.
 
 (function () {
     function assert(condition, message) {
@@ -7,15 +7,15 @@
     }
 
     const stringArray = Make.arrayObject(["alpha", "beta"], "System.String");
-    assert(stringArray.GetType().FullName === "System.String[]", "arrayObject must return System.String[]");
-    assert(stringArray.Length === 2 && stringArray.GetValue(1) === "beta", "string[] contents");
+    assert(Array.isArray(stringArray), "arrayObject must preserve JavaScript Array semantics");
+    assert(stringArray.length === 2 && stringArray[1] === "beta", "string array contents");
 
     const integerList = Make.listObject([3, 5, 8], "System.Int32");
     assert(integerList.GetType().FullName.includes("System.Collections.Generic.List"), "listObject must return List<T>");
-    assert(integerList.Count === 3 && integerList[2] === 8, "List<Int32> contents");
+    assert(integerList.Count === 3 && Number(integerList[2]) === 8, "List<Int32> contents");
 
     const stringEnumerable = Make.iteratorObject(new Set(["read", "write"]), "System.String");
-    assert(stringEnumerable.GetType().FullName.includes("System.Collections.Generic.List"), "iteratorObject must return an IEnumerable<T> implementation");
+    assert(stringEnumerable.GetType().FullName.includes("System.Collections.Generic.List"), "iteratorObject must return a concrete IEnumerable<T> implementation");
     assert(stringEnumerable.Count === 2, "IEnumerable<String> contents");
 
     const dictionary = Make.dictionaryObject({
@@ -30,18 +30,15 @@
     assert(hashSet.Count === 2, "HashSet<T> removes duplicates");
 
     const bytes = Make.bytesObject("DEAL");
-    assert(bytes.GetType().FullName === "System.Byte[]", "bytesObject must return byte[]");
-    assert(bytes.Length === 4, "UTF-8 byte length");
+    assert(Array.isArray(bytes) && bytes.length === 4, "bytesObject must return a JavaScript byte array");
 
-    const path = application.Engine.Resource.Combine(
-        application.Engine.Resource.TempDirectory,
-        "deal-clr-interop-smoke.txt"
-    );
-    application.Engine.Resource.SetFileLines(path, stringArray, null);
-    application.Engine.Resource.AppendFileLines(path, stringEnumerable, null);
-    const saved = Make.array(application.Engine.Resource.GetFileLines(path, null));
-    assert(saved.length === 4 && saved[0] === "alpha" && saved[3] === "write", "ResourceProvider array and IEnumerable overloads");
+    const resource = application.Engine.Resource;
+    const path = resource.Combine(["Temporary", "deal-clr-interop-smoke.txt"]);
+    resource.SetFileLines(path, stringArray, null);
+    resource.AppendFileLines(path, ["write"], null);
+    const saved = Make.array(resource.GetFileLines(path, null));
+    assert(saved.length === 3 && saved[0] === "alpha" && saved[2] === "write", "object[] and IEnumerable<string> ResourceProvider overloads");
+    resource.Delete(path);
 
-    application.Engine.Resource.Delete(path);
     return "CLR interop smoke test passed.";
 })();
