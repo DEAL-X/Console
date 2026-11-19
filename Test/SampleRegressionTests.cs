@@ -51,6 +51,7 @@ namespace MiMFa.Engine.DEAL.Console
                     false,
                     failures
                 );
+                CleanupInteropArtifacts(root);
                 RunInteropOverloadShapeTests(failures);
             }
             finally
@@ -156,6 +157,7 @@ namespace MiMFa.Engine.DEAL.Console
                     false,
                     failures
                 );
+                CleanupInteropArtifacts(root);
                 RunInteropOverloadShapeTests(failures);
             }
             finally
@@ -174,6 +176,17 @@ namespace MiMFa.Engine.DEAL.Console
             foreach (string failure in failures)
                 System.Console.Error.WriteLine("FAIL " + failure);
             return 1;
+        }
+
+
+        private static void CleanupInteropArtifacts(string root)
+        {
+            string path = Path.Combine(root, "Temporary", "clr-object-interop-encoding-smoke.txt");
+            try
+            {
+                if (File.Exists(path)) File.Delete(path);
+            }
+            catch { }
         }
 
         private static void RunInteropOverloadShapeTests(List<string> failures)
