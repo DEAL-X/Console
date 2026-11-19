@@ -7,6 +7,7 @@ function clrObjectInteropSmokeTest(application) {
     const values = ["first", "second", "third"];
     const path = resource.Combine(["Temporary", "clr-object-interop-smoke.txt"]);
     const binaryPath = resource.Combine(["Temporary", "clr-object-interop-bytes-smoke.bin"]);
+    const textPath = resource.Combine(["Temporary", "clr-object-interop-encoding-smoke.txt"]);
     const folderPath = resource.Combine(["Temporary", "clr-object-interop-folder"]);
 
     const clrArray = Make.arrayObject(values, "System.String");
@@ -63,6 +64,21 @@ function clrObjectInteropSmokeTest(application) {
         if (!Array.isArray(storedBytes) || Number(storedBytes[0]) !== 65 || Number(storedBytes[2]) !== 67)
             throw new Error("The object-based SetFileContents byte conversion failed.");
 
+        // Encoding-name overloads accept script strings as well as Encoding host objects.
+        resource.SetFileText(textPath, "payload", "utf-8");
+        resource.PrependFileText(textPath, "before", "utf-8");
+        resource.AppendFileText(textPath, "after", "utf-8");
+        if (resource.GetFileText(textPath, "utf-8") !== "beforepayloadafter")
+            throw new Error("The text encoding overloads failed.");
+        if (resource.GetFileLines(textPath, "utf-8") == null ||
+            resource.GetContents(textPath, false, "utf-8") == null)
+            throw new Error("The encoding-aware line/content overloads failed.");
+        resource.SetFileLine(textPath, 0, "changed", "utf-8");
+        resource.PrependFileLine(textPath, "first", "utf-8");
+        resource.AppendFileLine(textPath, "last", "utf-8");
+        if (resource.GetFileLine(textPath, 0, "utf-8") !== "first")
+            throw new Error("The encoding-aware single-line overloads failed.");
+
         // Actual CLR generic collections continue to bind through IEnumerable<string>.
         resource.SetFileLines(path, clrList, null);
         resource.SetFileLines(path, clrEnumerable, null);
@@ -85,6 +101,7 @@ function clrObjectInteropSmokeTest(application) {
     } finally {
         resource.Delete(path);
         resource.Delete(binaryPath);
+        resource.Delete(textPath);
         resource.Delete(folderPath);
     }
 }
