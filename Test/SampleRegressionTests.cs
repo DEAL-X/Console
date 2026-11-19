@@ -183,6 +183,14 @@ namespace MiMFa.Engine.DEAL.Console
             RequireOverload(typeof(ResourceBase), "SetFileContents", new[] { typeof(string), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "SetFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
             RequireOverload(typeof(ResourceBase), "GetFileLines", new[] { typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "GetContents", new[] { typeof(string), typeof(bool), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "PrependFileText", new[] { typeof(string), typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "AppendFileText", new[] { typeof(string), typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "PrependFileLines", new[] { typeof(string), typeof(object), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "AppendFileLines", new[] { typeof(string), typeof(object), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "SetFileLine", new[] { typeof(string), typeof(int), typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "PrependFileLine", new[] { typeof(string), typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "AppendFileLine", new[] { typeof(string), typeof(string), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "GetFileText", new[] { typeof(string), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "SetFileText", new[] { typeof(string), typeof(string), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "GetFileLine", new[] { typeof(string), typeof(int), typeof(object) }, failures);
