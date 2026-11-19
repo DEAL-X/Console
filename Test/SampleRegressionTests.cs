@@ -142,8 +142,8 @@ namespace MiMFa.Engine.DEAL.Console
 
         private static void RunInteropOverloadShapeTests(List<string> failures)
         {
-            RequireOverload(typeof(ResourceBase), "Combine", new[] { typeof(object[]) }, failures);
-            RequireOverload(typeof(ResourceBase), "SetFolderContents", new[] { typeof(string), typeof(object[]) }, failures);
+            RequireOverload(typeof(ResourceBase), "Combine", new[] { typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "SetFolderContents", new[] { typeof(string), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "SetFileContents", new[] { typeof(string), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "SetFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
             RequireOverload(typeof(ResourceBase), "PrependFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
