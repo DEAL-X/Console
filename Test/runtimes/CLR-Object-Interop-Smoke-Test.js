@@ -50,6 +50,17 @@ function clrObjectInteropSmokeTest(application) {
     if (hashSet.Count !== 3)
         throw new Error("Make.hashSetObject returned an unexpected item count.");
 
+    const queue = Make.queueObject(values, "System.String");
+    const stack = Make.stackObject(values, "System.String");
+    const linkedList = Make.linkedListObject(values, "System.String");
+    const sortedSet = Make.sortedSetObject(values, "System.String");
+    const arrayList = Make.arrayListObject(values);
+    const hashTable = Make.hashTableObject({ first: 1, second: 2 });
+    if (queue.Count !== 3 || stack.Count !== 3 || linkedList.Count !== 3 || sortedSet.Count !== 3)
+        throw new Error("A generic queue, stack, linked list, or sorted set converter failed.");
+    if (arrayList.Count !== 3 || hashTable.Count !== 2)
+        throw new Error("A non-generic collection converter failed.");
+
     try {
         // JavaScript arrays are marshalled as object[] and converted in the host.
         resource.SetFileLines(path, clrArray, "utf-8");
@@ -96,6 +107,12 @@ function clrObjectInteropSmokeTest(application) {
             dictionaryCount: dictionary.Count,
             dynamicObjectType: "System.Dynamic.ExpandoObject",
             hashSetCount: hashSet.Count,
+            queueCount: queue.Count,
+            stackCount: stack.Count,
+            linkedListCount: linkedList.Count,
+            sortedSetCount: sortedSet.Count,
+            arrayListCount: arrayList.Count,
+            hashTableCount: hashTable.Count,
             lineCount: 3
         };
     } finally {
