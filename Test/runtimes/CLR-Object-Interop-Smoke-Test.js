@@ -124,7 +124,6 @@ function clrObjectInteropSmokeTest(application) {
     } finally {
         resource.Delete(path);
         resource.Delete(binaryPath);
-        resource.Delete(textPath);
         resource.Delete(folderPath);
     }
 }
