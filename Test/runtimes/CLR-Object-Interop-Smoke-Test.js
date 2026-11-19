@@ -51,9 +51,9 @@ function clrObjectInteropSmokeTest(application) {
 
     try {
         // JavaScript arrays are marshalled as object[] and converted in the host.
-        resource.SetFileLines(path, clrArray, null);
-        resource.PrependFileLines(path, ["zero"], null);
-        resource.AppendFileLines(path, ["last"], null);
+        resource.SetFileLines(path, clrArray, "utf-8");
+        resource.PrependFileLines(path, ["zero"], "utf-8");
+        resource.AppendFileLines(path, ["last"], "utf-8");
         if (resource.GetFileLine(path, 0, null) !== "zero" || resource.GetFileLine(path, 4, null) !== "last")
             throw new Error("The object[] Set/Prepend/AppendFileLines overloads failed.");
 
