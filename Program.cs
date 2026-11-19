@@ -59,7 +59,6 @@ namespace MiMFa.Engine.DEAL.Console
 
             IsAlive = true;
             Interpreter = new V8ScriptEngine(
-                V8ScriptEngineFlags.EnableArrayConversion |
                 V8ScriptEngineFlags.EnableDateTimeConversion |
                 V8ScriptEngineFlags.EnableDynamicModuleImports |
                 V8ScriptEngineFlags.EnableStringifyEnhancements |
