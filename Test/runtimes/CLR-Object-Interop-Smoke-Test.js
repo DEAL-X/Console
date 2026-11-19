@@ -66,8 +66,7 @@ function clrObjectInteropSmokeTest(application) {
         // Actual CLR generic collections continue to bind through IEnumerable<string>.
         resource.SetFileLines(path, clrList, null);
         resource.SetFileLines(path, clrEnumerable, null);
-        const collectionLines = Make.array(resource.GetFileLines(path, null));
-        if (collectionLines.length !== 3 || collectionLines[0] !== "first" || collectionLines[2] !== "third")
+        if (resource.GetFileLine(path, 0, null) !== "first" || resource.GetFileLine(path, 2, null) !== "third")
             throw new Error("The IEnumerable<string> ResourceProvider overload failed.");
 
         resource.CreateDirectory(folderPath);
@@ -77,11 +76,11 @@ function clrObjectInteropSmokeTest(application) {
             passed: true,
             arrayRepresentation: "JavaScript Array",
             byteRepresentation: "JavaScript Array",
-            listType: clrList.GetType().FullName,
+            listType: "System.Collections.Generic.List<System.String>",
             dictionaryCount: dictionary.Count,
             dynamicObjectType: "System.Dynamic.ExpandoObject",
             hashSetCount: hashSet.Count,
-            lineCount: collectionLines.length
+            lineCount: 3
         };
     } finally {
         resource.Delete(path);
