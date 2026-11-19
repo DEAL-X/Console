@@ -5,7 +5,7 @@ Use deal/core;
 Use deal/data/file;
 Use console;
 
-Consider myCart be file temporary path "file-1-sample.txt";
+Consider myCart variable be file temporary path "file-1-sample.txt";
 myCart append {Name:"Snakes", Count:2, Price:2, Brand:"Guau"};
 myCart append {Name:"Chocolate", Count:5, Price:2.5, Type:"V", Unit:"Kilo", Desc:"90% coca"};
 myCart append {Name:"Beverage", Count:3, Price:1.2, Brand:"CocaCola", Desc:"1.5L"};
@@ -15,9 +15,9 @@ myCart append {Name:"Chocolate", Count:0.75, Price:2, Type:"V", Unit:"Kilo", Des
 
 print "The myCart variable is a file contain:";
 print myCart read it;
-Let query be null;
+Var query be null;
 do {
 	query be (prompt "Search a word in cart to compute the price (leave empty to jump): ")?.toLowerCase();
 	Let results be select "Price", "Count" from myCart search (item => not query or item?.Name?.toLowerCase()?.includes(query));
-	print `The total price of ${results.length} items is: ` + (math sum(results map (a=>a.Count * a.Price)));
+	print `The total price of ${results.length} items is: ` + math decimals(math sum(results map (item=>item.Count * item.Price)), 2) + " $";
 } while (query);

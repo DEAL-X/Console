@@ -14,20 +14,17 @@ Consider records be [
     { id: 3, title: "Interoperable", tags: ["JavaScript", ".NET"] }
 ];
 
-Consider root be application.Engine.Resource.TempDirectory;
+Consider root be Temporary directory;
 Consider jsonLinesPath be application.Engine.Resource.Combine(root, "deal-records.jsonl");
 Consider binaryPath be application.Engine.Resource.Combine(root, "deal-summary.txt");
 
-Consider output be File(jsonLinesPath);
-// File.fields is a property: assign the records to its setter.
-output.fields = records;
+Consider results be File(jsonLinesPath);
+results fields be records;
 
-// Read the JSON Lines file back through the fields getter.
 Consider restored be [];
-For each record of output.fields,
-    Append restored, record;
+For each record of results fields: Append restored, record;
 
-Local.write(binaryPath, "Exported " + restored.length + " records from DEAL.JS.");
+Local write binaryPath, "Exported " + restored.length + " records from DEAL.JS.";
 
 Print restored;
-Print Local.read(binaryPath);
+Print Local read binaryPath;

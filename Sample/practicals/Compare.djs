@@ -5,7 +5,7 @@ Use deal/core;
 Use deal/data/file;
 Use console;
 
-function cmp() => print `The result of compare "${Array.from(arguments).join('" with "')}" is ` + (compare ...arguments);
+function cmp() => print `The result of compare "${Array.from(arguments).join('" with "')}" is ` + (Math.decimals 100 * (compare ...arguments), 2) + "%";
 
 cmp "test text", "test text";
 cmp "test text", "test Text";
