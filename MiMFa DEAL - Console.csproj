@@ -201,4 +201,11 @@
 	  </None>
 	</ItemGroup>
 
+
+	<ItemGroup>
+	  <None Update="Sample/**/*">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

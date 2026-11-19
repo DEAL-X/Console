@@ -1,4 +1,5 @@
 ﻿use deal\make;
+use deal/make/string;
 
 command open() => will application.Engine.Resource.GetFileText(...arguments);
 

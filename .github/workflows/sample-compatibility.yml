@@ -1,0 +1,70 @@
+name: Sample compatibility
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "Program.cs"
+      - "Console/**"
+      - "Sample/**"
+      - "Test/SampleRegressionTests.cs"
+      - "MiMFa DEAL - Console.csproj"
+      - ".github/workflows/sample-compatibility.yml"
+  push:
+    branches: [main]
+    paths:
+      - "Program.cs"
+      - "Console/**"
+      - "Sample/**"
+      - "Test/SampleRegressionTests.cs"
+      - "MiMFa DEAL - Console.csproj"
+      - ".github/workflows/sample-compatibility.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  compile-and-run-samples:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Console
+        uses: actions/checkout@v4
+        with:
+          path: Console
+
+      - name: Checkout shared Engine
+        uses: actions/checkout@v4
+        with:
+          repository: DEAL-X/Engine
+          ref: main
+          path: MiMFa DEAL - Engine
+
+      - name: Checkout DEAL.JS engine
+        uses: actions/checkout@v4
+        with:
+          repository: DEAL-X/DEAL-JS
+          ref: fix/web-and-selector-module-facades
+          path: MiMFa DEAL.JS - Engine
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+          architecture: x64
+
+      - name: Install the .NET 5 x86 runtime required by Console
+        shell: pwsh
+        run: |
+          $installer = Join-Path $env:RUNNER_TEMP 'dotnet-install.ps1'
+          Invoke-WebRequest 'https://dot.net/v1/dotnet-install.ps1' -OutFile $installer
+          $x86Dotnet = Join-Path ${env:ProgramFiles(x86)} 'dotnet'
+          & $installer -Runtime dotnet -Version 5.0.17 -Architecture x86 -InstallDir $x86Dotnet
+
+      - name: Build Console and referenced engines
+        working-directory: Console
+        run: dotnet build "MiMFa DEAL - Console.csproj" --configuration Release
+
+      - name: Compile all samples and execute deterministic scenarios
+        working-directory: Console
+        run: dotnet run --project "MiMFa DEAL - Console.csproj" --configuration Release --no-build -- --test-samples

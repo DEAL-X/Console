@@ -48,8 +48,8 @@ function clrObjectInteropSmokeTest(application) {
     if (hashSet.Count !== 3)
         throw new Error("Make.hashSetObject returned an unexpected item count.");
 
-    const path = resource.Resolve("clr-object-interop-smoke.txt");
-    const binaryPath = resource.Resolve("clr-object-interop-bytes-smoke.bin");
+    const path = resource.Normalize("clr-object-interop-smoke.txt");
+    const binaryPath = resource.Normalize("clr-object-interop-bytes-smoke.bin");
     try {
         // This call exercises the exact string[] overload that previously failed.
         resource.SetFileLines(path, clrArray, null);

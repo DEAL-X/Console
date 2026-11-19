@@ -1,30 +1,25 @@
-// Tutorial 02: Browser control and Fetch.
-// Browser convenience methods and browser properties are synchronous.
-// The .NET host selects Chrome (default), Edge, or Firefox before running this file.
-// `Fetch`, `load` and `go` are asynchronous, so await thair results and response body.
+// Tutorial 02: Browser control and the Fetch-compatible API.
+// Browser methods/properties are synchronous; Fetch and response bodies are asynchronous.
 // HOW TO USE:
 // Use Sample/tutorials/2;
 
 Use deal/core;
 Use deal/web;
 
-// Open returns a BrowserTab immediately.
-Consider tab be browser open https://example.com/;
+// Open returns a BrowserTab immediately. The host's default driver is Chrome.
+Consider tab be browser.open("https://example.com/");
+Consider pageTitle be tab.Title;
+Consider pageUrl be tab.Url;
+Consider firstHeading be tab.Window.Document.QuerySelector("h1");
 
-// Browser properties are ordinary synchronous values.
-Consider pageTitle be browser.tab.window.document.title;
-Consider pageUrl be browser.tab.window.location.href;
-Consider firstHeading be browser.tab.window.document.querySelector("h1");
+// Browser convenience methods are synchronous.
+tab.Navigate("https://example.org/");
+tab.Back();
 
-// Normal browser actions also have synchronous convenience methods.
-browser.tab.navigate("https://example.org/");
-browser.tab.back();
-
-// Fetch remains asynchronous.
-Fetch https://example.com/,
-Then
-    If argument.ok,
-        Consider html be argument.text();
-        Print html;
-Otherwise
-    Log error "The request failed with status " + response.status;
+// Fetch and response-body readers return promises; await both.
+Consider response be await fetch("https://example.com/");
+If response.ok,
+    Consider html be await response.text();
+    Print html;
+Otherwise,
+    Log.error "The request failed with status " + response.status;

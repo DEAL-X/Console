@@ -80,8 +80,8 @@ if (rejected.filter(item => item.reason === "duplicate_identifier").length !== 1
     rejected.filter(item => item.reason === "out_of_range_discount").length !== 1)
     throw new Error("The fixture rejection categories do not match the data contract.");
 
-Consider acceptedFile be File(application.Engine.Resource.Resolve("catalog-accepted.jsonl"), null, false);
-Consider rejectedFile be File(application.Engine.Resource.Resolve("catalog-rejected.jsonl"), null, false);
+Consider acceptedFile be File(application.Engine.Resource.Normalize("catalog-accepted.jsonl"), null, false);
+Consider rejectedFile be File(application.Engine.Resource.Normalize("catalog-rejected.jsonl"), null, false);
 
 acceptedFile.write(accepted.map(record => JSON.stringify(record)).join("\n"));
 rejectedFile.write(rejected.map(record => JSON.stringify(record)).join("\n"));
