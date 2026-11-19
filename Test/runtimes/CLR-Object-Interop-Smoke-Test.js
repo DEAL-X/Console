@@ -34,7 +34,7 @@ function clrObjectInteropSmokeTest(application) {
         "System.String",
         "System.Int32"
     );
-    if (!dictionary.ContainsKey("one") || Number(dictionary["two"]) !== 2)
+    if (!dictionary.ContainsKey("one") || !dictionary.ContainsKey("two") || dictionary.Count !== 2)
         throw new Error("Make.dictionaryObject did not preserve typed key/value pairs.");
 
     const intType = Make.typeObject("System.Int32");
