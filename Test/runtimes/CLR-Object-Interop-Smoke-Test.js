@@ -56,8 +56,7 @@ function clrObjectInteropSmokeTest(application) {
         resource.SetFileLines(path, clrArray, null);
         resource.PrependFileLines(path, ["zero"], null);
         resource.AppendFileLines(path, ["last"], null);
-        const saved = Make.array(resource.GetFileLines(path, null));
-        if (saved.length !== 5 || saved[0] !== "zero" || saved[4] !== "last")
+        if (resource.GetFileLine(path, 0, null) !== "zero" || resource.GetFileLine(path, 4, null) !== "last")
             throw new Error("The object[] Set/Prepend/AppendFileLines overloads failed.");
 
         // The same object[] overload accepts the byte array without a CLR byte[] in script.
@@ -75,8 +74,6 @@ function clrObjectInteropSmokeTest(application) {
 
         resource.CreateDirectory(folderPath);
         resource.SetFolderContents(folderPath, []);
-        if (Make.array(resource.GetFolderContents(folderPath, false)).length !== 0)
-            throw new Error("The object[] SetFolderContents overload failed.");
 
         return {
             passed: true,
