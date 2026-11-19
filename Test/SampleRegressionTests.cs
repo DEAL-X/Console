@@ -29,6 +29,42 @@ namespace MiMFa.Engine.DEAL.Console
             "tutorials/6/06-Selection-and-Collections.djs"
         };
 
+
+        public static int RunClrInteropOnly()
+        {
+            string root = Directory.GetCurrentDirectory();
+            var failures = new List<string>();
+            TextReader originalInput = System.Console.In;
+            TextWriter originalOutput = System.Console.Out;
+            System.Console.SetOut(TextWriter.Null);
+            Program.DisplayMode = 0;
+
+            try
+            {
+                RunClrSmokeTest(
+                    Path.Combine(root, "Test", "runtimes", "CLR-Object-Interop-Smoke-Test.js"),
+                    true,
+                    failures
+                );
+                RunClrSmokeTest(
+                    Path.Combine(root, "Test", "runtimes", "Clr-Interop-Smoke-Test.js"),
+                    false,
+                    failures
+                );
+                RunInteropOverloadShapeTests(failures);
+            }
+            finally
+            {
+                System.Console.SetIn(originalInput);
+                System.Console.SetOut(originalOutput);
+            }
+
+            System.Console.WriteLine("CLR interop regression: " + (failures.Count == 0 ? "passed" : failures.Count + " failure(s)."));
+            foreach (string failure in failures)
+                System.Console.Error.WriteLine("FAIL " + failure);
+            return failures.Count == 0 ? 0 : 1;
+        }
+
         public static int Run()
         {
             string root = Directory.GetCurrentDirectory();
