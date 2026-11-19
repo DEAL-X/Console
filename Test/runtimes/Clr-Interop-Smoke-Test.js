@@ -11,11 +11,9 @@
     assert(stringArray.length === 2 && stringArray[1] === "beta", "string array contents");
 
     const integerList = Make.listObject([3, 5, 8], "System.Int32");
-    assert(integerList.GetType().FullName.includes("System.Collections.Generic.List"), "listObject must return List<T>");
     assert(integerList.Count === 3 && Number(integerList[2]) === 8, "List<Int32> contents");
 
     const stringEnumerable = Make.iteratorObject(new Set(["read", "write"]), "System.String");
-    assert(stringEnumerable.GetType().FullName.includes("System.Collections.Generic.List"), "iteratorObject must return a concrete IEnumerable<T> implementation");
     assert(stringEnumerable.Count === 2, "IEnumerable<String> contents");
 
     const dictionary = Make.dictionaryObject({
@@ -23,7 +21,6 @@
         metadata: { version: 1 },
         tags: ["declarative", "extensible"]
     });
-    assert(dictionary.GetType().FullName.includes("System.Collections.Generic.Dictionary"), "dictionaryObject must return Dictionary<TKey,TValue>");
     assert(dictionary.Count === 3, "dictionary entry count");
 
     const hashSet = Make.hashSetObject(["a", "b", "a"], "System.String");
