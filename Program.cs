@@ -87,6 +87,7 @@ namespace MiMFa.Engine.DEAL.Console
                     "System.Core",
                     "System.Xml",
                     "System.Linq",
+                    "System.Linq.Expressions",
                     "System.Data",
                     "System.Threading",
                     "System.Collections",
