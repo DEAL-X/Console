@@ -197,6 +197,13 @@ namespace MiMFa.Engine.DEAL.Console
             RequireOverload(typeof(ResourceBase), "SetFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
             // The concrete ResourceProvider must re-expose overloads hidden by typed overrides.
             RequireOverload(typeof(ResourceBase), "GetFileLines", new[] { typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceProvider), "GetFileLines", new[] { typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceProvider), "GetFileText", new[] { typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceProvider), "SetFileText", new[] { typeof(string), typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceProvider), "SetFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
+            RequireOverload(typeof(ResourceProvider), "SetFileLines", new[] { typeof(string), typeof(object), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceProvider), "PrependFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
+            RequireOverload(typeof(ResourceProvider), "AppendFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
             RequireOverload(typeof(ResourceBase), "GetContents", new[] { typeof(string), typeof(bool), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "PrependFileText", new[] { typeof(string), typeof(string), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "AppendFileText", new[] { typeof(string), typeof(string), typeof(object) }, failures);
