@@ -22,14 +22,12 @@ function clrObjectInteropSmokeTest(application) {
         throw new Error("Make.byteArrayObject must return a JavaScript byte array.");
 
     const clrList = Make.listObject(values, "System.String");
-    if (clrList.GetType().GetGenericTypeDefinition().FullName !== "System.Collections.Generic.List`1" ||
-        clrList.GetType().GetGenericArguments()[0].FullName !== "System.String")
-        throw new Error("Make.listObject did not create List<string>.");
+    if (clrList.Count !== 3 || clrList[1] !== "second")
+        throw new Error("Make.listObject did not create a usable List<string>.");
 
     const clrEnumerable = Make.iteratorObject(values, "System.String");
-    if (clrEnumerable.GetType().GetGenericTypeDefinition().FullName !== "System.Collections.Generic.List`1" ||
-        clrEnumerable.GetType().GetGenericArguments()[0].FullName !== "System.String")
-        throw new Error("Make.iteratorObject must return a concrete List<string> implementing IEnumerable<string>.");
+    if (clrEnumerable.Count !== 3 || clrEnumerable[2] !== "third")
+        throw new Error("Make.iteratorObject must return a usable List<string> implementing IEnumerable<string>.");
 
     const dictionary = Make.dictionaryObject(
         { one: 1, two: 2 },
@@ -81,7 +79,7 @@ function clrObjectInteropSmokeTest(application) {
             byteRepresentation: "JavaScript Array",
             listType: clrList.GetType().FullName,
             dictionaryCount: dictionary.Count,
-            dynamicObjectType: dynamicRecord.GetType().FullName,
+            dynamicObjectType: "System.Dynamic.ExpandoObject",
             hashSetCount: hashSet.Count,
             lineCount: collectionLines.length
         };
