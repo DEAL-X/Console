@@ -146,6 +146,11 @@ namespace MiMFa.Engine.DEAL.Console
             RequireOverload(typeof(ResourceBase), "SetFolderContents", new[] { typeof(string), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "SetFileContents", new[] { typeof(string), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "SetFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
+            RequireOverload(typeof(ResourceBase), "GetFileLines", new[] { typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "GetFileText", new[] { typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "SetFileText", new[] { typeof(string), typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "GetFileLine", new[] { typeof(string), typeof(int), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "SetFileLines", new[] { typeof(string), typeof(object), typeof(object) }, failures);
             RequireOverload(typeof(ResourceBase), "PrependFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
             RequireOverload(typeof(ResourceBase), "AppendFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
             RequireOverload(typeof(BrowserPermissions), "Grant", new[] { typeof(string), typeof(object) }, failures);
