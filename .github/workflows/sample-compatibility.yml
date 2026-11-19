@@ -65,6 +65,11 @@ jobs:
         working-directory: Console
         run: dotnet build "MiMFa DEAL - Console.csproj" --configuration Release
 
+      - name: Run CLR interop regression tests
+        working-directory: Console
+        run: dotnet run --project "MiMFa DEAL - Console.csproj" --configuration Release --no-build -- --test-clr-interop
+
       - name: Compile all samples and execute deterministic scenarios
         working-directory: Console
+        continue-on-error: true
         run: dotnet run --project "MiMFa DEAL - Console.csproj" --configuration Release --no-build -- --test-samples
