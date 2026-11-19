@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MiMFa.Engine.Put;
+using MiMFa.Core.Resources;
+using MiMFa.Net.Browsers.Drivers;
+using MiMFa.Net.Browsers.Services;
+using System.Text;
 
 namespace MiMFa.Engine.DEAL.Console
 {
@@ -116,6 +120,7 @@ namespace MiMFa.Engine.DEAL.Console
                     false,
                     failures
                 );
+                RunInteropOverloadShapeTests(failures);
             }
             finally
             {
@@ -133,6 +138,40 @@ namespace MiMFa.Engine.DEAL.Console
             foreach (string failure in failures)
                 System.Console.Error.WriteLine("FAIL " + failure);
             return 1;
+        }
+
+        private static void RunInteropOverloadShapeTests(List<string> failures)
+        {
+            RequireOverload(typeof(ResourceBase), "Combine", new[] { typeof(object[]) }, failures);
+            RequireOverload(typeof(ResourceBase), "SetFolderContents", new[] { typeof(string), typeof(object[]) }, failures);
+            RequireOverload(typeof(ResourceBase), "SetFileContents", new[] { typeof(string), typeof(object) }, failures);
+            RequireOverload(typeof(ResourceBase), "SetFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
+            RequireOverload(typeof(ResourceBase), "PrependFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
+            RequireOverload(typeof(ResourceBase), "AppendFileLines", new[] { typeof(string), typeof(object), typeof(Encoding) }, failures);
+            RequireOverload(typeof(BrowserPermissions), "Grant", new[] { typeof(string), typeof(object[]) }, failures);
+            RequireOverload(typeof(BrowserPermissions), "GrantAsync", new[] { typeof(string), typeof(object[]) }, failures);
+            RequireOverload(typeof(FirefoxDriver), "SetArguments", new[] { typeof(object[]) }, failures);
+
+            try
+            {
+                using (var driver = new FirefoxDriver())
+                {
+                    driver.SetArguments(new object[] { "--headless", "--private" });
+                    if (!driver.Arguments.SequenceEqual(new[] { "--headless", "--private" }))
+                        failures.Add("CLR interop overload shape [FirefoxDriver.SetArguments]: object[] values were not converted to strings.");
+                }
+            }
+            catch (Exception exception)
+            {
+                failures.Add("CLR interop overload shape [FirefoxDriver.SetArguments]: " + exception.Message);
+            }
+        }
+
+        private static void RequireOverload(Type declaringType, string methodName, Type[] parameterTypes, List<string> failures)
+        {
+            if (declaringType.GetMethod(methodName, parameterTypes) == null)
+                failures.Add("CLR interop overload shape: missing " + declaringType.FullName + "." + methodName + "(" +
+                    string.Join(", ", parameterTypes.Select(type => type.Name)) + ").");
         }
 
         private static void RunClrSmokeTest(string path, bool invokeFunction, List<string> failures)
