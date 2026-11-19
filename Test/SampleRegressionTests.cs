@@ -191,6 +191,7 @@ namespace MiMFa.Engine.DEAL.Console
                 }
 
                 int setupErrorsBefore = Program.Engine.Errors.Count();
+                // Load the package entry so the Make namespace is declared before its submodules.
                 Program.Engine.Execute("Use deal/make;");
                 var setupErrors = Program.Engine.Errors.Skip(setupErrorsBefore)
                     .Select(error => error.ToString()).ToArray();
