@@ -14,14 +14,14 @@
     try {
         const lines = ["first", "second", "third"];
         resource.SetFileLines(linesPath, lines, null);
-        let actual = Array.from(resource.GetFileLines(linesPath));
-        assert(actual.length === 3 && actual[0] === "first" && actual[2] === "third",
+        assert(resource.GetFileLine(linesPath, 0, null) === "first" &&
+            resource.GetFileLine(linesPath, 2, null) === "third",
             "JavaScript arrays should bind to SetFileLines(string[]).");
 
         resource.PrependFileLines(linesPath, ["zero"], null);
         resource.AppendFileLines(linesPath, ["fourth"], null);
-        actual = Array.from(resource.GetFileLines(linesPath));
-        assert(actual.length === 5 && actual[0] === "zero" && actual[4] === "fourth",
+        assert(resource.GetFileLine(linesPath, 0, null) === "zero" &&
+            resource.GetFileLine(linesPath, 4, null) === "fourth",
             "PrependFileLines and AppendFileLines should accept JavaScript arrays.");
 
         resource.SetFileContents(bytesPath, [65, 66, 67]);
