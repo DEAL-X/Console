@@ -7,7 +7,7 @@ const samples = Array.from(application.Engine.Resource.GetFolderContents(directo
     .filter(item => item.IsFile &&
         /\.djs$/i.test(item.Path) &&
         !/(^|[\\/])default\.djs$/i.test(item.Path))
-    .sort((left, right) => left.Path.localeCompare(right.Path));
+    .sort((left, right) => left.Path.localeCompare(right.Path, undefined, { numeric: true, sensitivity: "base" }));
 
 Print "DEAL.JS samples";
 Print "Select a sample by its number:";
