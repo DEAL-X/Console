@@ -12,7 +12,7 @@ Consider outputPath be application.Engine.Resource.Combine(
 );
 
 // Pass the JavaScript array directly. ClearScript performs the array conversion.
-application.Engine.Resource.SetFileLines(outputPath, values);
+application.Engine.Resource.SetFileLines(outputPath, values, null);
 
 // Keep explicit object conversion only for APIs that require CLR object types.
 Consider counts be Make.dictionaryObject(

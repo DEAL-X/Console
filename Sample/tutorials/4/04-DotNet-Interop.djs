@@ -14,7 +14,7 @@ Consider path is application.Engine.Resource.Combine(
 // ClearScript converts JavaScript arrays to CLR arrays when EnableArrayConversion is enabled.
 // The ResourceProvider exposes a string[] adapter for this API because its main implementation
 // accepts IEnumerable<string>.
-application.Engine.Resource.SetFileLines(path, names);
+application.Engine.Resource.SetFileLines(path, names, null);
 
 // Byte arrays are also passed directly; no Make.byteArrayObject conversion is required.
 Consider bytes is [68, 69, 65, 76];

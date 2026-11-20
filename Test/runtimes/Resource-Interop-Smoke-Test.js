@@ -13,13 +13,13 @@
 
     try {
         const lines = ["first", "second", "third"];
-        resource.SetFileLines(linesPath, lines);
+        resource.SetFileLines(linesPath, lines, null);
         let actual = Array.from(resource.GetFileLines(linesPath));
         assert(actual.length === 3 && actual[0] === "first" && actual[2] === "third",
             "JavaScript arrays should bind to SetFileLines(string[]).");
 
-        resource.PrependFileLines(linesPath, ["zero"]);
-        resource.AppendFileLines(linesPath, ["fourth"]);
+        resource.PrependFileLines(linesPath, ["zero"], null);
+        resource.AppendFileLines(linesPath, ["fourth"], null);
         actual = Array.from(resource.GetFileLines(linesPath));
         assert(actual.length === 5 && actual[0] === "zero" && actual[4] === "fourth",
             "PrependFileLines and AppendFileLines should accept JavaScript arrays.");
