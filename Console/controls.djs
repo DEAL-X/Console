@@ -24,8 +24,9 @@ command snippet() => {
 		Local.create(path, "// Write your snippet code here...");
 	}
 	if(isEmpty(path)) path = prompt("Please indicate an address for the snippet file:", snippetPath);
-	if(!local exists(path) and local create(path))
-		writeLine(`The file \"${path}\" is created successfully!`);
+	if (!Local.exists(path) && Local.create(path)) {
+		writeLine("The file " + path + " is created successfully!");
+	}
 	stay("notepad", path);
 
 	if(mode > 1 || (mode < 1 && confirm(`Are you sure to evaluate your snippet on \"${Local.name(path)}\"?`))) return evaluate(path);
