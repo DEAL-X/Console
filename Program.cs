@@ -36,6 +36,12 @@ namespace MiMFa.Engine.DEAL.Console
             System.Console.OutputEncoding =
             System.Console.InputEncoding = System.Text.Encoding.UTF8;
 
+            if (args.Any(arg => string.Equals(arg, "--test-resource-interop", StringComparison.OrdinalIgnoreCase)))
+            {
+                System.Environment.ExitCode = SampleRegressionTests.RunResourceInterop();
+                return;
+            }
+
             if (args.Any(arg => string.Equals(arg, "--test-samples", StringComparison.OrdinalIgnoreCase)))
             {
                 System.Environment.ExitCode = SampleRegressionTests.Run();

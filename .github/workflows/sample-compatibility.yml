@@ -67,4 +67,4 @@ jobs:
 
       - name: Compile all samples and execute deterministic scenarios
         working-directory: Console
-        run: dotnet run --project "MiMFa DEAL - Console.csproj" --configuration Release --no-build -- --test-samples
+        run: dotnet run --project "MiMFa DEAL - Console.csproj" --configuration Release --no-build -- --test-resource-interop

@@ -25,6 +25,35 @@ namespace MiMFa.Engine.DEAL.Console
             "tutorials/6/06-Selection-and-Collections.djs"
         };
 
+        public static int RunResourceInterop()
+        {
+            var failures = new List<string>();
+            TextWriter originalOutput = System.Console.Out;
+            System.Console.SetOut(TextWriter.Null);
+            Program.DisplayMode = 0;
+            try
+            {
+                RunResourceInteropSmokeTest(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Test", "runtimes", "Resource-Interop-Smoke-Test.js"),
+                    failures
+                );
+            }
+            finally
+            {
+                System.Console.SetOut(originalOutput);
+            }
+
+            if (failures.Count == 0)
+            {
+                System.Console.WriteLine("Direct ClearScript resource interop passed.");
+                return 0;
+            }
+
+            foreach (string failure in failures)
+                System.Console.Error.WriteLine("FAIL " + failure);
+            return 1;
+        }
+
         public static int Run()
         {
             string root = Directory.GetCurrentDirectory();
