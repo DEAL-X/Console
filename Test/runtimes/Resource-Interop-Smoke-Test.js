@@ -27,7 +27,7 @@
         resource.SetFileContents(bytesPath, [65, 66, 67]);
         const bytes = resource.GetFileContents(bytesPath);
         assert(bytes.length === 3 && Number(bytes[0]) === 65 && Number(bytes[2]) === 67,
-            "JavaScript byte arrays should bind to SetFileContents(byte[]).");
+            "JavaScript numeric arrays should bind through the generic adapter to SetFileContents(byte[]).");
 
         resource.SetFileText(textPath, "DEAL");
         assert(resource.GetFileText(textPath) === "DEAL",
