@@ -1,8 +1,8 @@
 ﻿use deal/core;
-use deal/data/local;
 
-command snippetPath = application.Engine.Resource.TempDirectory + 'snippet.djs';
-command snippet() => {
+Snippet = {};
+Snippet.path = null;
+command Snippet = function () {
 	let path = null;
 	let mode = 0;
 	if(arguments.length > 1){
@@ -20,20 +20,25 @@ command snippet() => {
 		else mode = arguments[0];
 	}
 	if(path == null) {
-		path = snippetPath;
-		Local.create(path, "// Write your snippet code here...");
+		path = Snippet.path;
+		application.Engine.Resource.SetFileText(path, "// Write your snippet code here...");
 	}
-	if(isEmpty(path)) path = prompt("Please indicate an address for the snippet file:", snippetPath);
-	if (!Local.exists(path) && Local.create(path)) {
+	if(isEmpty(path)) path = prompt("Please indicate an address for the snippet file:", Snippet.path);
+	if (!application.Engine.Resource.Exists(path) && application.Engine.Resource.SetFileText(path)) {
 		writeLine("The file " + path + " is created successfully!");
 	}
-	stay("notepad", path);
+	start("notepad", path);
 
-	if(mode > 1 || (mode < 1 && confirm(`Are you sure to evaluate your snippet on \"${Local.name(path)}\"?`))) return evaluate(path);
+	if(mode > 1 || (mode < 1 && confirm(`Are you sure to evaluate your snippet on \"${application.Engine.Resource.FileName(path)}\"?`))) return evaluate(path);
 	else if(mode > 0 || (mode < 1 && confirm(`Do you want to compile that snippet instead?`))) return compile(path);
 }
+command Snippet.path = application.Engine.Resource.TempDirectory + 'snippet.djs';
+command Snippet.handler(content = null, source = null){
+	if(content && source) return [content, source];
+	return [content ?? source ?? Snippet.path];
+};
 
-command evaluate(value = null) => application.Evaluate(value ?? snippetPath);
-command compile(value = null) => application.Compile(value ?? snippetPath);
-command execute(value = null) => application.Execute(value ?? snippetPath);
-command compare() => application.Compare(...arguments);
+command compile() => application.Engine.Compile(...Snippet.handler(...arguments)).Content;
+command evaluate() => application.Engine.Execute(...Snippet.handler(...arguments));
+command execute() => application.Display(application.Engine.Execute(...Snippet.handler(...arguments)));
+command compare() => application.Engine.Compare(...arguments);

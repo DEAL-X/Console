@@ -18,14 +18,17 @@ print myCart read it;
 Var query be null;
 do {
 	query be (prompt "Search a word in cart to compute the price (leave empty to jump): ")?.toLowerCase();
-	Let results be select "Name", "Price", "Count" from (not query? 
+	Let results be select "Name", "Price", "Count", "Unit", "Brand", "Desc" from (query? 
 		myCart search (item => 
 			item?.Name?.toLowerCase()?.includes(query)
 			or item?.Desc?.toLowerCase()?.includes(query)
 			or item?.Brand?.toLowerCase()?.includes(query)
 		) : myCart fields
 	);
-	print "Name\t Count\t Price\t Total";
-	print results map (item => `${item.Name}\t ${item.Count}\t ${Math.decimals(item.Price, 2)}\t ${Math.decimals(item.Count * item.Price, 2)}`) join("\n");
-	print `The total price of ${results.length} items is: ` + math decimals(math sum(results map (item=>item.Count * item.Price)), 2) + " $";
+	print "#\t | NAME\t | COUNT\t | PRICE\t | TOTAL\t | DESCRIPTION";
+	print "------------------------------------------------------------------------------------------------------";
+	print results map ((item, index) => `${index+1}\t | ${item.Name}\t | ${item.Count} ${item.Unit??""}\t | ${Math.decimals(item.Price, 2)} $\t | ${Math.decimals(item.Count * item.Price, 2)} $\t | ${item.Desc??item.Brand}`) join("\n");
+	print "------------------------------------------------------------------------------------------------------";
+	if(query) print `The total price of finded items is: ` + math decimals(math sum(results map (item=>item.Count * item.Price)), 2) + " $";
+	else print `The total price of whole ${results.length} items is: ` + math decimals(math sum(results map (item=>item.Count * item.Price)), 2) + " $";
 } while (query);

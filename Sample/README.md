@@ -4,7 +4,6 @@ The sample collection is organized by purpose:
 
 - tutorials/ — a progressive, numbered path from language basics to browser, file, asynchronous, and collection operations.
 - practicals/ — self-contained workflows built from realistic in-memory data and local files.
-- fixtures/ — deterministic local resources used by examples and runtime checks.
 
 ## Interactive sample launchers
 

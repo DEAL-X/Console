@@ -1,4 +1,5 @@
 // Tutorial 09: create, inspect, and transform JavaScript objects.
+
 Use deal/core;
 Use console;
 

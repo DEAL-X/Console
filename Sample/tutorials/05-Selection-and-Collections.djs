@@ -1,6 +1,4 @@
 // Tutorial: select object properties and match values in collections.
-// HOW TO USE:
-// Use Sample/tutorials/5;
 
 Use deal/core;
 Use deal/select;

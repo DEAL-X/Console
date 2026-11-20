@@ -3,7 +3,17 @@ use deal/make/string;
 
 command open() => will application.Engine.Resource.GetFileText(...arguments);
 
-command save(path = null, object = null) => will application.Engine.Resource.SetFileText(path ?? temp.file, Make.string(object));
+command save(dest = null, value = null) => will application.Engine.Resource.SetFileText(dest ?? temp.file, Make.string(value));
 
-command append(path = null, object = null) => will application.Engine.Resource.AppendFileText(path ?? temp.file, Make.string(object));
-command prepend(path = null, object = null) => will application.Engine.Resource.PrependFileText(path ?? temp.file, Make.string(object));
+command append(dest = null, value = null) {
+	if(Array.isArray(dest)) {
+		dest.push(value);
+		return dest;
+	}
+	else return application.Engine.Resource.AppendFileText(dest ?? temp.file, Make.string(value));
+}
+command prepend(object = null, value = null){
+	if(Array.isArray(dest))
+		return dest = [value, ...dest];
+	else return application.Engine.Resource.PrependFileText(dest ?? temp.file, Make.string(value));
+}

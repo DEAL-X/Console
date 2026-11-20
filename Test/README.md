@@ -3,7 +3,6 @@
 - inputs/ contains DEAL/JavaScript stress-test source files.
 - expects/ contains the expected JavaScript output for compiler comparisons.
 - outputs/ contains manually captured compiler output snapshots.
-- fixtures/ contains deterministic local resources used by runtime checks.
 - runtimes/ contains focused smoke tests for browser drivers, the browser object model, native web integration, and direct JavaScript-to-.NET resource method binding.
 
 ## How to use

@@ -1,4 +1,5 @@
 // Tutorial 14: map, filter, and reduce a collection.
+
 Use deal/core;
 Use console;
 

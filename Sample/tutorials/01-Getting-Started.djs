@@ -1,7 +1,5 @@
 // Tutorial 01: Getting started with DEAL.JS.
 // DEAL instructions are sentence-like and compile deterministically to JavaScript.
-// HOW TO USE:
-// Use Sample/tutorials/1;
 
 Use deal/core;
 

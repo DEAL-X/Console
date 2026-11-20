@@ -1,7 +1,7 @@
 ﻿use deal/core;
 
 // To convert then write an object
-command print(object = null) => application.DisplayHybrid(object);
+command print(object = null) => application.Display(object);
 
 // To write a message
 command write(message = null) => console.Write(message??"");

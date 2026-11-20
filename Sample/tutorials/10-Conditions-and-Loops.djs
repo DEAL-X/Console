@@ -1,4 +1,5 @@
 // Tutorial 10: combine conditions and iteration.
+
 Use deal/core;
 Use console;
 

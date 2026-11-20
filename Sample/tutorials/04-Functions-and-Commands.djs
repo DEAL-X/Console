@@ -1,6 +1,4 @@
 // Tutorial: define reusable JavaScript functions and DEAL commands.
-// HOW TO USE:
-// Use Sample/tutorials/4;
 
 Use deal/core;
 Use console;

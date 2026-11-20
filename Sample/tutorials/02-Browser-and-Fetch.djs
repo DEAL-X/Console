@@ -1,7 +1,5 @@
 // Tutorial 02: Browser control and the Fetch-compatible API.
 // Browser methods/properties are synchronous; Fetch and response bodies are asynchronous.
-// HOW TO USE:
-// Use Sample/tutorials/2;
 
 Use deal/core;
 Use deal/web;

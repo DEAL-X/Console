@@ -1,4 +1,5 @@
 // Tutorial 12: pass functions as values and compose reusable operations.
+
 Use deal/core;
 Use console;
 
