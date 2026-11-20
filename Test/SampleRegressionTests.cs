@@ -164,15 +164,19 @@ namespace MiMFa.Engine.DEAL.Console
 
         private static void RunFileModuleInteropSmokeTest(string path, List<string> failures)
         {
+            string originalCurrentDirectory = Environment.CurrentDirectory;
             bool initialized = false;
             try
             {
                 Program.Initial();
                 initialized = true;
 
-                string engineRoot = Path.Combine(Directory.GetCurrentDirectory(), "MiMFa DEAL.JS - Engine");
+                string engineRoot = Path.Combine(originalCurrentDirectory, "MiMFa DEAL.JS - Engine");
                 if (Directory.Exists(engineRoot))
+                {
                     Program.Engine.Resource.CurrentDirectory = engineRoot;
+                    Environment.CurrentDirectory = engineRoot;
+                }
 
                 var startupErrors = Program.Engine.Errors.Select(error => error.ToString()).ToArray();
                 if (startupErrors.Length > 0)
@@ -206,6 +210,7 @@ namespace MiMFa.Engine.DEAL.Console
             }
             finally
             {
+                Environment.CurrentDirectory = originalCurrentDirectory;
                 if (initialized)
                 {
                     try { Program.Final(); }
