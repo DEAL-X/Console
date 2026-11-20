@@ -97,9 +97,7 @@
 	  <None Update="Sample\practicals\Folder.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Sample\practicals\Interop-File.djs">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+	
 	  <None Update="Sample\practicals\Research-Catalog-Processing.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
@@ -124,12 +122,8 @@
 	  <None Update="Sample\tutorials\3\03-Commands.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Sample\tutorials\4\04-CLR-Object-Interop.djs">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Sample\tutorials\4\04-DotNet-Interop.djs">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+	
+	
 	  <None Update="Test\default.djs">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
