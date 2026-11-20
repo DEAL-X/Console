@@ -5,7 +5,6 @@
 
 Use deal/core;
 Use deal/data/file;
-Use deal/data/local;
 
 Consider records be [
     { id: 1, title: "Declarative", tags: ["language", "intent"] },
