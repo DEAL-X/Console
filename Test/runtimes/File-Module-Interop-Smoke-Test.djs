@@ -17,9 +17,12 @@ Consider binaryFile is File(path + ".bin");
 binaryFile.contents = [65, 66, 67];
 if (binaryFile.contents.length !== 3) throw new Error("File.contents did not pass a JavaScript array to SetFileContents.");
 
-Local.write(textPath, "DEAL");
+if (typeof Local === "undefined")
+    throw new Error("The data directory import did not load its Local sibling module.");
+
+application.Engine.Resource.SetFileText(textPath, "DEAL");
 if (application.Engine.Resource.GetFileText(textPath) !== "DEAL")
-    throw new Error("Local.write did not use the direct string resource API.");
+    throw new Error("The resource API did not preserve a direct string argument.");
 
 application.Engine.Resource.Delete(path);
 application.Engine.Resource.Delete(path + ".bin");
