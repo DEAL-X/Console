@@ -1,5 +1,6 @@
 // Direct JavaScript-to-.NET resource interop regression test.
 // Run with V8ScriptEngineFlags.EnableArrayConversion enabled.
+// Keep JavaScript arrays at the API boundary; the C# overloads adapt only where required.
 
 (function () {
     const resource = application.Engine.Resource;
