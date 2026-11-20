@@ -4,9 +4,7 @@
 // Use Sample/practicals/Interop-File;
 
 Use deal/core;
-Use deal/make/object;
 Use deal/data/file;
-Use deal/data/local;
 
 Consider records be [
     { id: 1, title: "Declarative", tags: ["language", "intent"] },

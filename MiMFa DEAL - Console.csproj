@@ -187,10 +187,7 @@
 	  <None Update="Test\runtimes\Browser-Object-Model-Smoke-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Test\runtimes\Clr-Interop-Smoke-Test.js">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Test\runtimes\CLR-Object-Interop-Smoke-Test.js">
+	  <None Update="Test\runtimes\Resource-Interop-Smoke-Test.js">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Test\runtimes\Native-Web-Smoke-Test.js">

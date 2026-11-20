@@ -25,6 +25,39 @@ namespace MiMFa.Engine.DEAL.Console
             "tutorials/6/06-Selection-and-Collections.djs"
         };
 
+        public static int RunResourceInterop()
+        {
+            var failures = new List<string>();
+            TextWriter originalOutput = System.Console.Out;
+            System.Console.SetOut(TextWriter.Null);
+            Program.DisplayMode = 0;
+            try
+            {
+                RunResourceInteropSmokeTest(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Test", "runtimes", "Resource-Interop-Smoke-Test.js"),
+                    failures
+                );
+                RunFileModuleInteropSmokeTest(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Test", "runtimes", "File-Module-Interop-Smoke-Test.djs"),
+                    failures
+                );
+            }
+            finally
+            {
+                System.Console.SetOut(originalOutput);
+            }
+
+            if (failures.Count == 0)
+            {
+                System.Console.WriteLine("Direct ClearScript resource interop passed.");
+                return 0;
+            }
+
+            foreach (string failure in failures)
+                System.Console.Error.WriteLine("FAIL " + failure);
+            return 1;
+        }
+
         public static int Run()
         {
             string root = Directory.GetCurrentDirectory();
@@ -106,14 +139,8 @@ namespace MiMFa.Engine.DEAL.Console
                     }
                 }
 
-                RunClrSmokeTest(
-                    Path.Combine(root, "Test", "runtimes", "CLR-Object-Interop-Smoke-Test.js"),
-                    true,
-                    failures
-                );
-                RunClrSmokeTest(
-                    Path.Combine(root, "Test", "runtimes", "Clr-Interop-Smoke-Test.js"),
-                    false,
+                RunResourceInteropSmokeTest(
+                    Path.Combine(root, "Test", "runtimes", "Resource-Interop-Smoke-Test.js"),
                     failures
                 );
             }
@@ -135,9 +162,75 @@ namespace MiMFa.Engine.DEAL.Console
             return 1;
         }
 
-        private static void RunClrSmokeTest(string path, bool invokeFunction, List<string> failures)
+        private static void RunFileModuleInteropSmokeTest(string path, List<string> failures)
         {
-            string name = Path.GetFileName(path);
+            string originalCurrentDirectory = Environment.CurrentDirectory;
+            bool initialized = false;
+            try
+            {
+                Program.Initial();
+                initialized = true;
+
+                string engineRoot = Path.GetFullPath(Path.Combine(originalCurrentDirectory, "..", "MiMFa DEAL.JS - Engine"));
+                if (Directory.Exists(engineRoot))
+                {
+                    Program.Engine.Resource.CurrentDirectory = engineRoot;
+                    Environment.CurrentDirectory = engineRoot;
+                }
+
+                var startupErrors = Program.Engine.Errors.Select(error => error.ToString()).ToArray();
+                if (startupErrors.Length > 0)
+                {
+                    failures.Add(Path.GetFileName(path) + " [startup]: " + string.Join(" | ", startupErrors));
+                    return;
+                }
+
+                string libraryFile = Program.Engine.Resource.Normalize("deal/data/file.djs");
+                bool libraryFileExists = Program.Engine.Resource.Exists(libraryFile);
+                var dependenciesBeforeCompile = Program.Engine.Dependencies.ToArray();
+
+                var input = new Input(File.ReadAllText(path), Path.GetFullPath(path));
+                int errorsBeforeCompilation = Program.Engine.Errors.Count();
+                var output = Program.Engine.Compile(input);
+                var compileLogErrors = Program.Engine.Errors.Skip(errorsBeforeCompilation)
+                    .Select(error => error.ToString()).ToArray();
+                if (!libraryFileExists)
+                    failures.Add("File module path was not found: " + libraryFile + " (cwd: " + Environment.CurrentDirectory + ").");
+                if (!dependenciesBeforeCompile.Any(dependency => dependency.EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)) &&
+                    !Program.Engine.Dependencies.Any(dependency => dependency.EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)))
+                    failures.Add("File module was not registered as a dependency. Loaded dependencies: " + string.Join(", ", Program.Engine.Dependencies));
+
+                if (output.Errors.Count > 0 || compileLogErrors.Length > 0)
+                {
+                    var details = compileLogErrors.Concat(output.Errors).ToArray();
+                    failures.Add(Path.GetFileName(path) + " [compile]: " + string.Join(" | ", details));
+                    return;
+                }
+
+                int errorsBeforeExecution = Program.Engine.Errors.Count();
+                Program.Engine.Execute(output);
+                var runtimeErrors = Program.Engine.Errors.Skip(errorsBeforeExecution)
+                    .Select(error => error.ToString()).ToArray();
+                if (runtimeErrors.Length > 0)
+                    failures.Add(Path.GetFileName(path) + " [execute]: " + string.Join(" | ", runtimeErrors));
+            }
+            catch (Exception exception)
+            {
+                failures.Add(Path.GetFileName(path) + " [exception]: " + exception);
+            }
+            finally
+            {
+                Environment.CurrentDirectory = originalCurrentDirectory;
+                if (initialized)
+                {
+                    try { Program.Final(); }
+                    catch (Exception exception) { failures.Add(Path.GetFileName(path) + " [shutdown]: " + exception.Message); }
+                }
+            }
+        }
+
+        private static void RunResourceInteropSmokeTest(string path, List<string> failures)
+        {
             bool initialized = false;
             try
             {
@@ -147,35 +240,22 @@ namespace MiMFa.Engine.DEAL.Console
                 var startupErrors = Program.Engine.Errors.Select(error => error.ToString()).ToArray();
                 if (startupErrors.Length > 0)
                 {
-                    failures.Add(name + " [startup]: " + string.Join(" | ", startupErrors));
+                    failures.Add(Path.GetFileName(path) + " [startup]: " + string.Join(" | ", startupErrors));
                     return;
                 }
 
-                int setupErrorsBefore = Program.Engine.Errors.Count();
-                Program.Engine.Execute("Use deal/make/object;");
-                var setupErrors = Program.Engine.Errors.Skip(setupErrorsBefore)
-                    .Select(error => error.ToString()).ToArray();
-                if (setupErrors.Length > 0)
-                {
-                    failures.Add(name + " [module setup]: " + string.Join(" | ", setupErrors));
-                    return;
-                }
-
-                string script = File.ReadAllText(path);
-                if (invokeFunction)
-                    script += Environment.NewLine + "clrObjectInteropSmokeTest(application);";
-                Program.Interpreter.Evaluate(script);
+                Program.Interpreter.Evaluate(File.ReadAllText(path));
             }
             catch (Exception exception)
             {
-                failures.Add(name + " [execute]: " + exception);
+                failures.Add(Path.GetFileName(path) + " [execute]: " + exception);
             }
             finally
             {
                 if (initialized)
                 {
                     try { Program.Final(); }
-                    catch (Exception exception) { failures.Add(name + " [shutdown]: " + exception.Message); }
+                    catch (Exception exception) { failures.Add(Path.GetFileName(path) + " [shutdown]: " + exception.Message); }
                 }
             }
         }
