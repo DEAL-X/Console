@@ -21,7 +21,7 @@ test "Test-File-Name-Without-Extension";
 - `Browser-Driver-Smoke-Test.js` — run separately with ChromeDriver, EdgeDriver, and FirefoxDriver. It covers tab creation, navigation, activation, closing, and current-tab resolution without relying on an external website.
 - `Browser-Object-Model-Smoke-Test.js` — exercises browser object proxies and Chromium-specific optional file-picker checks.
 - `Native-Web-Smoke-Test.js` — exercises Fetch, local-file requests, browser navigation, abort handling, and request-body lifecycle.
-- `Resource-Interop-Smoke-Test.js` — verifies that ordinary JavaScript arrays (marshaled by ClearScript as `object[]`) bind through the targeted generic array adapters to the resource methods' `IEnumerable<string>` implementations and to the existing `byte[]` API with ClearScript array conversion enabled.
+- `Resource-Interop-Smoke-Test.js` and `File-Module-Interop-Smoke-Test.djs` — verify that ordinary JavaScript arrays (marshaled by ClearScript as `object[]`) bind through the targeted generic array adapters to the resource methods' `IEnumerable<string>` implementations and to the existing `byte[]` API with ClearScript array conversion enabled.
 ## Compiler stress tests
 
 For each stress test, compare the generated JavaScript from `inputs/` with the corresponding file in `expects/`. The `outputs/` copy records output captured from the implementation when it was saved. These files are kept separate so differences are easy to inspect.

@@ -178,10 +178,14 @@ namespace MiMFa.Engine.DEAL.Console
                 }
 
                 var input = new Input(File.ReadAllText(path), Path.GetFullPath(path));
+                int errorsBeforeCompilation = Program.Engine.Errors.Count();
                 var output = Program.Engine.Compile(input);
-                if (output.Errors.Count > 0)
+                var compileLogErrors = Program.Engine.Errors.Skip(errorsBeforeCompilation)
+                    .Select(error => error.ToString()).ToArray();
+                if (output.Errors.Count > 0 || compileLogErrors.Length > 0)
                 {
-                    failures.Add(Path.GetFileName(path) + " [compile]: " + string.Join(" | ", output.Errors));
+                    var details = compileLogErrors.Concat(output.Errors).ToArray();
+                    failures.Add(Path.GetFileName(path) + " [compile]: " + string.Join(" | ", details));
                     return;
                 }
 
