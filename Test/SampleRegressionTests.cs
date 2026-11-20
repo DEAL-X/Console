@@ -70,7 +70,9 @@ namespace MiMFa.Engine.DEAL.Console
 
         public static int Run()
         {
+            string originalCurrentDirectory = Environment.CurrentDirectory;
             string root = Directory.GetCurrentDirectory();
+            string engineRoot = Path.GetFullPath(Path.Combine(root, "..", "MiMFa DEAL.JS - Engine"));
             string sampleRoot = Path.Combine(root, "Sample");
             var failures = new List<string>();
             var samples = Directory.Exists(sampleRoot)
@@ -102,6 +104,11 @@ namespace MiMFa.Engine.DEAL.Console
                     {
                         Program.Initial();
                         initialized = true;
+                        if (Directory.Exists(engineRoot))
+                        {
+                            Program.Engine.Resource.CurrentDirectory = engineRoot;
+                            Environment.CurrentDirectory = engineRoot;
+                        }
 
                         var startupErrors = Program.Engine.Errors.Select(error => error.ToString()).ToArray();
                         if (startupErrors.Length > 0)
@@ -160,6 +167,7 @@ namespace MiMFa.Engine.DEAL.Console
             }
             finally
             {
+                Environment.CurrentDirectory = originalCurrentDirectory;
                 System.Console.SetIn(originalInput);
                 System.Console.SetOut(originalOutput);
             }
