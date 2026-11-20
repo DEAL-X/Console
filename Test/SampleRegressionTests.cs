@@ -106,6 +106,7 @@ namespace MiMFa.Engine.DEAL.Console
                     }
                 }
 
+                System.Console.WriteLine("Running direct ClearScript resource array interop checks...");
                 RunResourceInteropSmokeTest(
                     Path.Combine(root, "Test", "runtimes", "Resource-Interop-Smoke-Test.js"),
                     failures
