@@ -185,11 +185,21 @@ namespace MiMFa.Engine.DEAL.Console
                     return;
                 }
 
+                string libraryFile = Program.Engine.Resource.Normalize("deal/data/file.djs");
+                bool libraryFileExists = Program.Engine.Resource.Exists(libraryFile);
+                var dependenciesBeforeCompile = Program.Engine.Dependencies.ToArray();
+
                 var input = new Input(File.ReadAllText(path), Path.GetFullPath(path));
                 int errorsBeforeCompilation = Program.Engine.Errors.Count();
                 var output = Program.Engine.Compile(input);
                 var compileLogErrors = Program.Engine.Errors.Skip(errorsBeforeCompilation)
                     .Select(error => error.ToString()).ToArray();
+                if (!libraryFileExists)
+                    failures.Add("File module path was not found: " + libraryFile + " (cwd: " + Environment.CurrentDirectory + ").");
+                if (!dependenciesBeforeCompile.Any(dependency => dependency.EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)) &&
+                    !Program.Engine.Dependencies.Any(dependency => dependency.EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)))
+                    failures.Add("File module was not registered as a dependency. Loaded dependencies: " + string.Join(", ", Program.Engine.Dependencies));
+
                 if (output.Errors.Count > 0 || compileLogErrors.Length > 0)
                 {
                     var details = compileLogErrors.Concat(output.Errors).ToArray();
