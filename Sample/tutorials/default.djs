@@ -3,7 +3,7 @@ Use deal/core;
 Use console;
 
 const directory = "Sample/tutorials";
-const samples = application.Engine.Resource.GetFolderContents(directory, true)
+const samples = Array.from(application.Engine.Resource.GetFolderContents(directory, true))
     .filter(item => item.IsFile &&
         /\.djs$/i.test(item.Path) &&
         !/(^|[\\/])default\.djs$/i.test(item.Path))
