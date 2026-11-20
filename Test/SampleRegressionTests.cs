@@ -37,6 +37,10 @@ namespace MiMFa.Engine.DEAL.Console
                     Path.Combine(Directory.GetCurrentDirectory(), "Test", "runtimes", "Resource-Interop-Smoke-Test.js"),
                     failures
                 );
+                RunFileModuleInteropSmokeTest(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Test", "runtimes", "File-Module-Interop-Smoke-Test.djs"),
+                    failures
+                );
             }
             finally
             {
@@ -156,6 +160,50 @@ namespace MiMFa.Engine.DEAL.Console
             foreach (string failure in failures)
                 System.Console.Error.WriteLine("FAIL " + failure);
             return 1;
+        }
+
+        private static void RunFileModuleInteropSmokeTest(string path, List<string> failures)
+        {
+            bool initialized = false;
+            try
+            {
+                Program.Initial();
+                initialized = true;
+
+                var startupErrors = Program.Engine.Errors.Select(error => error.ToString()).ToArray();
+                if (startupErrors.Length > 0)
+                {
+                    failures.Add(Path.GetFileName(path) + " [startup]: " + string.Join(" | ", startupErrors));
+                    return;
+                }
+
+                var input = new Input(File.ReadAllText(path), Path.GetFullPath(path));
+                var output = Program.Engine.Compile(input);
+                if (output.Errors.Count > 0)
+                {
+                    failures.Add(Path.GetFileName(path) + " [compile]: " + string.Join(" | ", output.Errors));
+                    return;
+                }
+
+                int errorsBeforeExecution = Program.Engine.Errors.Count();
+                Program.Engine.Execute(output);
+                var runtimeErrors = Program.Engine.Errors.Skip(errorsBeforeExecution)
+                    .Select(error => error.ToString()).ToArray();
+                if (runtimeErrors.Length > 0)
+                    failures.Add(Path.GetFileName(path) + " [execute]: " + string.Join(" | ", runtimeErrors));
+            }
+            catch (Exception exception)
+            {
+                failures.Add(Path.GetFileName(path) + " [exception]: " + exception);
+            }
+            finally
+            {
+                if (initialized)
+                {
+                    try { Program.Final(); }
+                    catch (Exception exception) { failures.Add(Path.GetFileName(path) + " [shutdown]: " + exception.Message); }
+                }
+            }
         }
 
         private static void RunResourceInteropSmokeTest(string path, List<string> failures)
