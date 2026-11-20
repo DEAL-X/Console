@@ -1,5 +1,4 @@
 Use deal/data/file;
-Use deal/data/local;
 
 Consider path is application.Engine.Resource.Combine(
     application.Engine.Resource.TempDirectory,
@@ -23,5 +22,5 @@ if (application.Engine.Resource.GetFileText(textPath) !== "DEAL")
     throw new Error("Local.write did not use the direct string resource API.");
 
 application.Engine.Resource.Delete(path);
-
+application.Engine.Resource.Delete(path + ".bin");
 application.Engine.Resource.Delete(textPath);
