@@ -4,8 +4,6 @@
 
 Use deal/core;
 Use deal/select;
-Use console;
-
 Consider people be [
     { name: "Ada", language: "Analytical Engine", active: true },
     { name: "Grace", language: "COBOL", active: true },
@@ -14,10 +12,11 @@ Consider people be [
 
 Consider names be select "name" from people;
 Consider activePeople be people.filter(person => person.active);
+Consider activeNames be select "name" from activePeople;
 Consider namesStartingWithA be select any /^A/i from names;
 
-Print {
+print {
     names: names,
-    active_names: select "name" from activePeople,
+    active_names: activeNames,
     names_starting_with_a: namesStartingWithA
 };

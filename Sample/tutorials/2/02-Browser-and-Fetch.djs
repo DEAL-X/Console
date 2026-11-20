@@ -20,6 +20,6 @@ tab.Back();
 Consider response be await fetch("https://example.com/");
 If response.ok,
     Consider html be await response.text();
-    Print html;
+    print html;
 Otherwise,
     Log.error "The request failed with status " + response.status;

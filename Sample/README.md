@@ -57,4 +57,4 @@ Each launcher lists the available source files with numbers. Enter a number, the
 - Run samples from the Console application's working directory so deal/, Console/, and Sample/ paths resolve.
 - Browser practicals require a working browser driver and an installed browser. Network examples require network access.
 - File examples use the shared File and Local modules; their implementation calls application.Engine.Resource directly, and ordinary JavaScript values are passed to the targeted resource overloads without a separate conversion wrapper.
-- The automated sample compatibility workflow compiles every .djs sample and executes the deterministic local scenarios. Browser and external-network scenarios are compile-checked only.
+- The automated sample compatibility workflow compiles every .djs sample and runs focused runtime smoke tests for the resource and module interop boundaries. Browser and external-network scenarios are compile-checked only.

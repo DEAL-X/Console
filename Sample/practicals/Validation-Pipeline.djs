@@ -1,7 +1,5 @@
 // Practical: validate incoming records and separate accepted and rejected data.
 Use deal/core;
-Use console;
-
 Consider incoming be [
     { id: 101, email: "ada@example.test", amount: 25 },
     { id: 102, email: "invalid-email", amount: 14 },
@@ -21,4 +19,4 @@ Consider accepted be checked.filter(item => item.errors.length === 0).map(item =
 Consider rejected be checked.filter(item => item.errors.length > 0)
     .map(item => ({ id: item.record.id, errors: item.errors }));
 
-Print { accepted: accepted, rejected: rejected };
+print { accepted: accepted, rejected: rejected };

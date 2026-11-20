@@ -3,8 +3,6 @@
 
 Use deal/core;
 Use deal/data;
-Use console;
-
 Consider myCart variable be file temporary path "file-1-sample.txt";
 myCart append {Name:"Snakes", Count:2, Price:2, Brand:"Guau"};
 myCart append {Name:"Chocolate", Count:5, Price:2.5, Type:"V", Unit:"Kilo", Desc:"90% coca"};

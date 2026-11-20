@@ -5,8 +5,6 @@
 
 Use deal/core;
 Use deal/web;
-Use console;
-
 Consider urls be [
     "https://example.com/",
     "https://example.org/"
@@ -15,7 +13,7 @@ Consider results be [];
 
 // Open one tab and reuse the same BrowserTab for each address.
 Consider tab be browser.open("about:blank");
-For each url of urls,
+For each url in urls,
     Try,
         tab.Navigate(url);
         Consider title be tab.Title;
@@ -24,4 +22,4 @@ For each url of urls,
     Catch problem,
         Log.warning "Could not scrape " + url + ": " + problem;
 
-Print results;
+print results;
