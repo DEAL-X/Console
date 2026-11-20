@@ -58,7 +58,6 @@ namespace MiMFa.Engine.DEAL.Console
                 return 1;
             }
 
-            TextReader originalInput = System.Console.In;
             TextWriter originalOutput = System.Console.Out;
             System.Console.SetOut(TextWriter.Null);
             Program.DisplayMode = 0;
@@ -68,7 +67,6 @@ namespace MiMFa.Engine.DEAL.Console
                 foreach (string path in samples)
                 {
                     string relative = Path.GetRelativePath(sampleRoot, path).Replace('\\', '/');
-                    System.Console.SetIn(new StringReader(string.Empty));
 
                     bool initialized = false;
                     try
@@ -135,7 +133,6 @@ namespace MiMFa.Engine.DEAL.Console
             finally
             {
                 Environment.CurrentDirectory = originalCurrentDirectory;
-                System.Console.SetIn(originalInput);
                 System.Console.SetOut(originalOutput);
             }
 

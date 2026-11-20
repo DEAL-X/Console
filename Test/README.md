@@ -15,7 +15,7 @@ use test;
 test "Test-File-Name-Without-Extension";
 ```
 
-The test helper compiles an input from Test/inputs/, writes the result to Test/outputs/, and can open the generated file for inspection. Use Test.compare(name) to compare it with the matching file in Test/expects/.
+The test helper compiles an input from Test/inputs/, writes the result to Test/outputs/, and can open the generated file for inspection. Use Test.compare(name) to compare it with the matching file in Test/expects/. The sample regression runner compiles every sample source and then runs the focused resource/module interop smoke tests.
 
 ## Runtime smoke tests
 
