@@ -12,7 +12,7 @@ Consider sources be [
 ];
 Consider collection be [];
 
-For each address of sources,
+For each address in sources,
     Try,
         Consider response be await fetch(address, { headers: { "Accept": "application/json" } });
         If response.ok,
@@ -23,4 +23,4 @@ For each address of sources,
     Catch problem,
         Log error "Could not collect " + address + ": " + problem;
 
-Print collection;
+print collection;

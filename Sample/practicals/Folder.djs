@@ -5,7 +5,5 @@
 Use deal/core;
 Use deal/data/local;
 Use deal/select;
-Use console;
-
 Consider paths variable be select "Path" from local folder "Temporary";
-Print select any /.*snippet.*/i from paths;
+print select any /.*snippet.*/i from paths;

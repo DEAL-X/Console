@@ -7,8 +7,6 @@
 Use deal/core;
 Use deal/web;
 Use deal/data/file;
-Use console;
-
 const query = "DSL";
 const tab = browser.open("about:blank");
 const normalFile = File(Temporary.path("normal-serp.jsonl"));
@@ -22,7 +20,7 @@ while (address && pageCount < 3) {
     pageCount++;
 
     const cards = JSON.parse(tab.Window.Document.QuerySelectorAll("div[data-rpos]") || "[]");
-    for each markup of cards,
+    For each markup in cards,
         Consider linkMatch be /<a\b[^>]*href=["']([^"']+)["'][^>]*>[\s\S]*?<h3\b[^>]*>([\s\S]*?)<\/h3>/i.exec(markup);
         If linkMatch,
             Consider descriptionMatch be /<div[^>]*data-sncf=["']1["'][^>]*>([\s\S]*?)<\/div>/i.exec(markup);
@@ -45,10 +43,10 @@ while (address && pageCount < 3) {
 // Re-read the JSONL file, remove duplicate URLs, and persist the final records.
 const finalRecords = [];
 const seen = new Set();
-For each record of normalFile.fields,
+For each record in normalFile.fields,
     If (record.url && !seen.has(record.url)),
         seen.add(record.url);
         Append finalRecords, record;
 
 finalFile.fields = finalRecords;
-Print { pages: pageCount, records: finalRecords };
+print { pages: pageCount, records: finalRecords };

@@ -4,8 +4,6 @@
 
 Use deal/core;
 Use deal/select;
-Use console;
-
 Consider orders be [
     { id: 1, customer: "Ada", amount: 12.5, paid: true },
     { id: 2, customer: "Grace", amount: 8, paid: false },
@@ -13,12 +11,12 @@ Consider orders be [
     { id: 4, customer: "Edsger", amount: 20, paid: true }
 ];
 
-Consider paidOrders be orders.filter(order => order.paid);
-Consider customers be select "customer" from paidOrders;
-Consider adaOrders be paidOrders.filter(order => order.customer === "Ada");
+Consider paidOrders be orders.filter(function(order) { return order.paid; });
+Consider customers be paidOrders.map(function(order) { return order.customer; });
+Consider adaOrders be paidOrders.filter(function(order) { return order.customer === "Ada"; });
 Consider total be paidOrders.reduce((sum, order) => sum + order.amount, 0);
 
-Print {
+print {
     paid_count: paidOrders.length,
     customers: Array.from(new Set(customers)),
     ada_order_count: adaOrders.length,

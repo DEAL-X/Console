@@ -13,7 +13,6 @@ namespace MiMFa.Engine.DEAL.Console
             "practicals/Compare.djs",
             "practicals/File.djs",
             "practicals/Folder.djs",
-            "practicals/Research-Catalog-Processing.djs",
             "practicals/Collection-Processing.djs",
             "practicals/Jsonl-File-Workflow.djs",
             "practicals/Inventory-Report.djs",
@@ -104,10 +103,26 @@ namespace MiMFa.Engine.DEAL.Console
                     {
                         Program.Initial();
                         initialized = true;
+
+                        // Load the Console facade from the application root, then load DEAL libraries
+                        // from the sibling engine checkout before compiling the sample.
+                        Environment.CurrentDirectory = root;
+                        Program.Engine.Resource.CurrentDirectory = root;
+                        var consoleBootstrap = Program.Engine.Compile(new Input(
+                            "use console;",
+                            Path.Combine(root, "__sample-console-bootstrap__.djs")
+                        ));
+                        Program.Engine.Execute(consoleBootstrap);
+
                         if (Directory.Exists(engineRoot))
                         {
                             Program.Engine.Resource.CurrentDirectory = engineRoot;
                             Environment.CurrentDirectory = engineRoot;
+                            var libraryBootstrap = Program.Engine.Compile(new Input(
+                                "use deal/data; use deal/core; use deal/make; use deal/select;",
+                                Path.Combine(engineRoot, "__sample-library-bootstrap__.djs")
+                            ));
+                            Program.Engine.Execute(libraryBootstrap);
                         }
 
                         var startupErrors = Program.Engine.Errors.Select(error => error.ToString()).ToArray();
@@ -150,7 +165,12 @@ namespace MiMFa.Engine.DEAL.Console
                     {
                         if (initialized)
                         {
-                            try { Program.Final(); }
+                            try
+                            {
+                                Environment.CurrentDirectory = originalCurrentDirectory;
+                                Program.Engine.Resource.CurrentDirectory = originalCurrentDirectory;
+                                Program.Final();
+                            }
                             catch (Exception exception) { failures.Add(relative + " [shutdown]: " + exception.Message); }
                         }
                     }

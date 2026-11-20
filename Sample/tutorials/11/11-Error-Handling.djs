@@ -1,7 +1,5 @@
 // Tutorial 11: handle expected failures with try/catch.
 Use deal/core;
-Use console;
-
 function parsePositiveNumber(value) {
     const number = Number(value);
     if (!Number.isFinite(number) || number <= 0)
@@ -18,4 +16,4 @@ Consider results be inputs.map(value => {
     }
 });
 
-Print results;
+print results;

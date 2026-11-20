@@ -4,5 +4,5 @@
 // Use Sample/tutorials/3;
 
 Consider values be [10, 20, 30, "test"];
-For each item of values,
-    Print item + " value";
+For each item in values,
+    print item + " value";

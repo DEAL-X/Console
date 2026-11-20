@@ -3,8 +3,6 @@
 // Use Sample/tutorials/4;
 
 Use deal/core;
-Use console;
-
 function calculateTotal(items) {
     return items.reduce((total, item) => total + item.price * item.count, 0);
 }
@@ -22,4 +20,4 @@ Consider cart be [
     { name: "Folder", count: 1, price: 2 }
 ];
 
-Print describeCart(cart);
+print describeCart(cart);

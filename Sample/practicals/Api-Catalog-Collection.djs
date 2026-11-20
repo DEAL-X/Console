@@ -6,8 +6,6 @@
 Use deal/core;
 Use deal/web;
 Use deal/data/file;
-Use console;
-
 const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
 if (!response.ok)
     throw new Error("Catalog request failed with HTTP " + response.status);
@@ -22,7 +20,7 @@ const catalog = posts.map(post => ({
 const output = File(Temporary.path("deal-api-catalog.jsonl"));
 output.fields = catalog;
 
-Print {
+print {
     received: posts.length,
     saved: output.count,
     first: catalog[0] || null

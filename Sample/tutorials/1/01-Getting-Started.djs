@@ -10,8 +10,8 @@ Consider values be [1, 2, 3, 4, 5];
 Consider doubled be [];
 
 // Iterate using a declarative DEAL instruction.
-For each value of values,
+For each value in values,
     Append doubled, value * 2;
 
 // Display the result.
-Print doubled;
+print doubled;

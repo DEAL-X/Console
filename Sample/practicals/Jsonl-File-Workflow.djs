@@ -4,8 +4,6 @@
 
 Use deal/core;
 Use deal/data;
-Use console;
-
 Consider records be [
     { id: 1, name: "Ada", active: true },
     { id: 2, name: "Grace", active: false },
@@ -18,7 +16,7 @@ file.fields = records;
 Consider restored be Array.from(file.fields);
 Consider activeRecords be restored.filter(record => record.active);
 
-Print {
+print {
     written: records.length,
     restored: restored.length,
     active: activeRecords.map(record => record.name)

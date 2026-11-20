@@ -3,8 +3,6 @@
 
 Use deal/core;
 Use deal/data;
-Use console;
-
 function cmp() => print `The result of compare "${Array.from(arguments).join('" with "')}" is ` + (Math.decimals 100 * (compare ...arguments), 2) + "%";
 
 cmp "test text", "test text";

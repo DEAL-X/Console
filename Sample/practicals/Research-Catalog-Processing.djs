@@ -36,7 +36,7 @@ function reject(record, reason) {
     });
 }
 
-for each raw of sourceRecords,
+For each raw in sourceRecords,
     Consider id be normalizeText(raw.id);
     Consider title be normalizeText(raw.title);
     Consider priceText be normalizeText(raw.price);
@@ -86,7 +86,7 @@ Consider rejectedFile be File(application.Engine.Resource.Normalize("catalog-rej
 acceptedFile.write(accepted.map(record => JSON.stringify(record)).join("\n"));
 rejectedFile.write(rejected.map(record => JSON.stringify(record)).join("\n"));
 
-Print {
+print {
     source_count: sourceRecords.length,
     accepted_count: accepted.length,
     rejected_count: rejected.length,
