@@ -2,7 +2,7 @@
 // Use Sample/practicals/Compare;
 
 Use deal/core;
-Use deal/data/file;
+Use deal/data;
 Use console;
 
 function cmp() => print `The result of compare "${Array.from(arguments).join('" with "')}" is ` + (Math.decimals 100 * (compare ...arguments), 2) + "%";
