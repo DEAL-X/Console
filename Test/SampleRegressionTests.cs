@@ -171,7 +171,7 @@ namespace MiMFa.Engine.DEAL.Console
                 Program.Initial();
                 initialized = true;
 
-                string engineRoot = Path.Combine(originalCurrentDirectory, "MiMFa DEAL.JS - Engine");
+                string engineRoot = Path.GetFullPath(Path.Combine(originalCurrentDirectory, "..", "MiMFa DEAL.JS - Engine"));
                 if (Directory.Exists(engineRoot))
                 {
                     Program.Engine.Resource.CurrentDirectory = engineRoot;
