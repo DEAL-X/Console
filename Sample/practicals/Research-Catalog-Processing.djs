@@ -7,7 +7,7 @@
 
 Use deal/core;
 Use deal/make;
-Use deal/data/file;
+Use deal/data;
 
 const retrievedAt = "2026-11-11T00:00:00Z";
 const schemaVersion = "1.0";
