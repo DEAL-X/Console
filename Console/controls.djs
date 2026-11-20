@@ -19,7 +19,10 @@ command snippet() => {
 			path = arguments[0];
 		else mode = arguments[0];
 	}
-	if(path == null) local create(path = path ?? snippetPath, "// Write your snippet code here...");
+	if(path == null) {
+		path = snippetPath;
+		Local.create(path, "// Write your snippet code here...");
+	}
 	if(isEmpty(path)) path = prompt("Please indicate an address for the snippet file:", snippetPath);
 	if(!local exists(path) and local create(path))
 		writeLine(`The file \"${path}\" is created successfully!`);
