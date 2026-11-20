@@ -206,8 +206,8 @@ namespace MiMFa.Engine.DEAL.Console
                     .Select(error => error.ToString()).ToArray();
                 if (!libraryFileExists)
                     failures.Add("File module path was not found: " + libraryFile + " (cwd: " + Environment.CurrentDirectory + ").");
-                if (!dependenciesBeforeCompile.Any(dependency => dependency.EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)) &&
-                    !Program.Engine.Dependencies.Any(dependency => dependency.EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)))
+                if (!dependenciesBeforeCompile.Any(dependency => dependency.Replace('\\', '/').EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)) &&
+                    !Program.Engine.Dependencies.Any(dependency => dependency.Replace('\\', '/').EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)))
                     failures.Add("File module was not registered as a dependency. Loaded dependencies: " + string.Join(", ", Program.Engine.Dependencies));
 
                 if (output.Errors.Count > 0 || compileLogErrors.Length > 0)
