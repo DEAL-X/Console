@@ -27,5 +27,5 @@ Print {
     dictionaryType: counts.GetType().FullName,
     dictionaryCount: counts.Count,
     dynamicObjectType: dynamicRecord.GetType().FullName,
-    dynamicObjectName: dynamicRecord.name
+    dynamicObjectName: dynamicRecord["name"]
 };
