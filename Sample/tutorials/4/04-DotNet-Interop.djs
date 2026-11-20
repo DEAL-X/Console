@@ -3,7 +3,7 @@
 // Use Sample/tutorials/4;
 
 Use deal/core;
-Use deal/make/object;
+Use deal/make;
 
 Consider names is ["Ada", "Grace", "Edsger"];
 Consider path is application.Engine.Resource.Combine(

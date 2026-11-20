@@ -3,7 +3,7 @@
 // Use Sample/tutorials/4;
 
 Use deal/core;
-Use deal/make/object;
+Use deal/make;
 
 Consider values be ["alpha", "beta", "gamma"];
 Consider outputPath be application.Engine.Resource.Combine(
