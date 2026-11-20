@@ -153,6 +153,10 @@ namespace MiMFa.Engine.DEAL.Console
                     Path.Combine(root, "Test", "runtimes", "Resource-Interop-Smoke-Test.js"),
                     failures
                 );
+                RunFileModuleInteropSmokeTest(
+                    Path.Combine(root, "Test", "runtimes", "File-Module-Interop-Smoke-Test.djs"),
+                    failures
+                );
             }
             finally
             {
