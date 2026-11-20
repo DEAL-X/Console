@@ -1,4 +1,4 @@
-Use deal/data/file;
+Use deal/data;
 
 Consider path is application.Engine.Resource.Combine(
     application.Engine.Resource.TempDirectory,

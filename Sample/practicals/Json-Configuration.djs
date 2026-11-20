@@ -1,6 +1,6 @@
 // Practical: persist and restore a JSON configuration file.
 Use deal/core;
-Use deal/data/file;
+Use deal/data;
 Use console;
 
 Consider settings be {

@@ -3,7 +3,7 @@
 // Use Sample/practicals/Jsonl-File-Workflow;
 
 Use deal/core;
-Use deal/data/file;
+Use deal/data;
 Use console;
 
 Consider records be [

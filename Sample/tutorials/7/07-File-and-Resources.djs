@@ -1,6 +1,6 @@
 // Tutorial 07: create, append, and read a local text file.
 Use deal/core;
-Use deal/data/file;
+Use deal/data;
 Use console;
 
 Consider notes be File(Temporary.path("deal-tutorial-notes.txt"), null, false);
