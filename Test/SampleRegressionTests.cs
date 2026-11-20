@@ -13,16 +13,26 @@ namespace MiMFa.Engine.DEAL.Console
             "practicals/Compare.djs",
             "practicals/File.djs",
             "practicals/Folder.djs",
-            "practicals/Interop-File.djs",
             "practicals/Research-Catalog-Processing.djs",
             "practicals/Collection-Processing.djs",
             "practicals/Jsonl-File-Workflow.djs",
+            "practicals/Inventory-Report.djs",
+            "practicals/Text-Analysis.djs",
+            "practicals/Validation-Pipeline.djs",
+            "practicals/Task-Board.djs",
+            "practicals/Nested-Data-Transformation.djs",
+            "practicals/Json-Configuration.djs",
             "tutorials/1/01-Getting-Started.djs",
             "tutorials/3/03-Commands.djs",
-            "tutorials/4/04-CLR-Object-Interop.djs",
-            "tutorials/4/04-DotNet-Interop.djs",
-            "tutorials/5/05-Functions-and-Commands.djs",
-            "tutorials/6/06-Selection-and-Collections.djs"
+            "tutorials/4/04-Functions-and-Commands.djs",
+            "tutorials/5/05-Selection-and-Collections.djs",
+            "tutorials/7/07-File-and-Resources.djs",
+            "tutorials/8/08-Strings-and-Templates.djs",
+            "tutorials/9/09-Objects-and-Properties.djs",
+            "tutorials/10/10-Conditions-and-Loops.djs",
+            "tutorials/11/11-Error-Handling.djs",
+            "tutorials/12/12-Functions-and-Callbacks.djs",
+            "tutorials/14/14-Array-Operations.djs"
         };
 
         public static int RunResourceInterop()

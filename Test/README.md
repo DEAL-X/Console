@@ -1,9 +1,10 @@
 # Compiler and runtime tests
 
-- `inputs/` contains DEAL/JavaScript stress-test source files.
-- `outputs/` contains captured compiler result snapshots.
-- `expects/` contains the expected JavaScript output for each stress test.
-- `runtimes/` contains executable smoke tests for browser drivers, the browser object model, native web integration, and direct JavaScript-to-.NET resource interop.
+- inputs/ contains DEAL/JavaScript stress-test source files.
+- expects/ contains the expected JavaScript output for compiler comparisons.
+- outputs/ contains manually captured compiler output snapshots.
+- fixtures/ contains deterministic local resources used by runtime checks.
+- runtimes/ contains focused smoke tests for browser drivers, the browser object model, native web integration, and direct JavaScript-to-.NET resource method binding.
 
 ## How to use
 
@@ -12,18 +13,17 @@ use console;
 use test;
 
 test "Test-File-Name-Without-Extension";
-// or
-// save(path be (local path `./Tests/outputs/${name}.js`), compile `./Tests/inputs/${name}.djs`) then start openResultsApp by path;
 ```
+
+The test helper compiles an input from Test/inputs/, writes the result to Test/outputs/, and can open the generated file for inspection. Use Test.compare(name) to compare it with the matching file in Test/expects/.
 
 ## Runtime smoke tests
 
-- `Browser-Driver-Smoke-Test.js` — run separately with ChromeDriver, EdgeDriver, and FirefoxDriver. It covers tab creation, navigation, activation, closing, and current-tab resolution without relying on an external website.
-- `Browser-Object-Model-Smoke-Test.js` — exercises browser object proxies and Chromium-specific optional file-picker checks.
-- `Native-Web-Smoke-Test.js` — exercises Fetch, local-file requests, browser navigation, abort handling, and request-body lifecycle.
-- `Resource-Interop-Smoke-Test.js` and `File-Module-Interop-Smoke-Test.djs` — verify that ordinary JavaScript arrays (marshaled by ClearScript as `object[]`) bind through the targeted generic array adapters to the resource methods' `IEnumerable<string>` implementations and to the existing `byte[]` API with ClearScript array conversion enabled.
+- Browser-Driver-Smoke-Test.js — run separately with ChromeDriver, EdgeDriver, and FirefoxDriver. It covers tab creation, navigation, activation, closing, and current-tab resolution without relying on an external website.
+- Browser-Object-Model-Smoke-Test.js — exercises browser object proxies and Chromium-specific optional file-picker checks.
+- Native-Web-Smoke-Test.js — exercises Fetch, local-file requests, browser navigation, abort handling, and request-body lifecycle.
+- Resource-Interop-Smoke-Test.js and File-Module-Interop-Smoke-Test.djs — verify direct JavaScript array binding to the targeted resource APIs with ClearScript array conversion enabled, and verify sibling module loading from a directory import.
+
 ## Compiler stress tests
 
-For each stress test, compare the generated JavaScript from `inputs/` with the corresponding file in `expects/`. The `outputs/` copy records output captured from the implementation when it was saved. These files are kept separate so differences are easy to inspect.
-
-- `Hierarchical-Keyword-Spelling.djs` — regression fixture for the three equivalent spellings `make StRing`, `make .StRing`, and `make.StRing`. Each expression must compile to exactly `Make.string`; the three corresponding lines in `expected/Hierarchical-Keyword-Spelling.expected.js` are the individual expected-output assertions.
+For each stress test, compare generated JavaScript from inputs/ with the corresponding file in expects/. The outputs/ directory contains captured outputs and is intentionally separate from the expected snapshots.
