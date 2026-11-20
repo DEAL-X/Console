@@ -16,13 +16,13 @@
         resource.SetFileLines(linesPath, lines, null);
         assert(resource.GetFileLine(linesPath, 0, null) === "first" &&
             resource.GetFileLine(linesPath, 2, null) === "third",
-            "JavaScript arrays should bind to SetFileLines(string[]).");
+            "JavaScript arrays should bind through the array adapter to the IEnumerable<string> implementation.");
 
         resource.PrependFileLines(linesPath, ["zero"], null);
         resource.AppendFileLines(linesPath, ["fourth"], null);
         assert(resource.GetFileLine(linesPath, 0, null) === "zero" &&
             resource.GetFileLine(linesPath, 4, null) === "fourth",
-            "PrependFileLines and AppendFileLines should accept JavaScript arrays.");
+            "PrependFileLines and AppendFileLines should accept JavaScript arrays through their array adapters.");
 
         resource.SetFileContents(bytesPath, [65, 66, 67]);
         const bytes = resource.GetFileContents(bytesPath);
