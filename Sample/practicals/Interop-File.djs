@@ -4,7 +4,6 @@
 // Use Sample/practicals/Interop-File;
 
 Use deal/core;
-Use deal/make/object;
 Use deal/data/file;
 Use deal/data/local;
 

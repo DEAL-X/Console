@@ -1,5 +1,4 @@
-// Tutorial 04: Convert JavaScript values into real .NET collections.
-// The Console host exposes ClearScript ExtendedHostFunctions as global "host".
+// Tutorial 04: JavaScript and .NET interoperability.
 // HOW TO USE:
 // Use Sample/tutorials/4;
 
@@ -7,43 +6,26 @@ Use deal/core;
 Use deal/make/object;
 
 Consider values be ["alpha", "beta", "gamma"];
-Consider clrArray be Make.arrayObject(values, "System.String");
-Consider clrList be Make.listObject(values, "System.String");
-Consider clrEnumerable be Make.iteratorObject(values, "System.String");
+Consider outputPath be application.Engine.Resource.Combine(
+    application.Engine.Resource.TempDirectory,
+    "clr-interop-array.txt"
+);
+
+// Pass the JavaScript array directly. ClearScript performs the array conversion.
+application.Engine.Resource.SetFileLines(outputPath, values);
+
+// Keep explicit object conversion only for APIs that require CLR object types.
 Consider counts be Make.dictionaryObject(
     { first: 1, second: 2, third: 3 },
     "System.String",
     "System.Int32"
 );
-Consider clrStrings be Make.stringArrayObject(values);
-Consider clrBytes be Make.byteArrayObject("DEAL.JS");
-Consider integerType be Make.typeObject("System.Int32");
-Consider convertedNumber be Make.convertObject("42", integerType);
 Consider dynamicRecord be Make.objectObject({ name: "DEAL.JS", revision: 1 });
-Consider uniqueValues be Make.hashSetObject(values, "System.String");
-Consider pendingValues be Make.queueObject(values, "System.String");
-Consider recentValues be Make.stackObject(values, "System.String");
-Consider legacyValues be Make.arrayListObject(values);
-
-Consider outputPath be application.Engine.Resource.Normalize("clr-interop-array.txt");
-application.Engine.Resource.SetFileLines(outputPath, clrArray, null);
-Consider listPath be application.Engine.Resource.Normalize("clr-interop-list.txt");
-application.Engine.Resource.SetFileLines(listPath, clrList, null);
-Consider enumerablePath be application.Engine.Resource.Normalize("clr-interop-enumerable.txt");
-application.Engine.Resource.SetFileLines(enumerablePath, clrEnumerable, null);
 
 Print {
-    arrayType: clrArray.GetType().FullName,
-    stringArrayType: clrStrings.GetType().FullName,
-    byteArrayType: clrBytes.GetType().FullName,
-    listType: clrList.GetType().FullName,
+    values: application.Engine.Resource.GetFileLines(outputPath),
     dictionaryType: counts.GetType().FullName,
-    convertedNumber: convertedNumber,
-    dynamicObjectType: dynamicRecord.GetType().FullName,
-    dynamicObjectName: dynamicRecord.name,
     dictionaryCount: counts.Count,
-    hashSetCount: uniqueValues.Count,
-    queueCount: pendingValues.Count,
-    stackCount: recentValues.Count,
-    arrayListCount: legacyValues.Count
+    dynamicObjectType: dynamicRecord.GetType().FullName,
+    dynamicObjectName: dynamicRecord.name
 };
