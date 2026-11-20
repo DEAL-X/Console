@@ -1,7 +1,7 @@
-// Tutorial 07: await Fetch and consume a JSON response body.
+// Tutorial: await Fetch and consume a JSON response body.
 // Requires network access to the public JSONPlaceholder test API.
 // HOW TO USE:
-// Use Sample/tutorials/7;
+// Use Sample/tutorials/6;
 
 Use deal/core;
 Use deal/web;

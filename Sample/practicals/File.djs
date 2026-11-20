@@ -2,7 +2,7 @@
 // Use Sample/practicals/File;
 
 Use deal/core;
-Use deal/data/file;
+Use deal/data;
 Use console;
 
 Consider myCart variable be file temporary path "file-1-sample.txt";

@@ -13,16 +13,26 @@ namespace MiMFa.Engine.DEAL.Console
             "practicals/Compare.djs",
             "practicals/File.djs",
             "practicals/Folder.djs",
-            "practicals/Interop-File.djs",
             "practicals/Research-Catalog-Processing.djs",
             "practicals/Collection-Processing.djs",
             "practicals/Jsonl-File-Workflow.djs",
+            "practicals/Inventory-Report.djs",
+            "practicals/Text-Analysis.djs",
+            "practicals/Validation-Pipeline.djs",
+            "practicals/Task-Board.djs",
+            "practicals/Nested-Data-Transformation.djs",
+            "practicals/Json-Configuration.djs",
             "tutorials/1/01-Getting-Started.djs",
             "tutorials/3/03-Commands.djs",
-            "tutorials/4/04-CLR-Object-Interop.djs",
-            "tutorials/4/04-DotNet-Interop.djs",
-            "tutorials/5/05-Functions-and-Commands.djs",
-            "tutorials/6/06-Selection-and-Collections.djs"
+            "tutorials/4/04-Functions-and-Commands.djs",
+            "tutorials/5/05-Selection-and-Collections.djs",
+            "tutorials/7/07-File-and-Resources.djs",
+            "tutorials/8/08-Strings-and-Templates.djs",
+            "tutorials/9/09-Objects-and-Properties.djs",
+            "tutorials/10/10-Conditions-and-Loops.djs",
+            "tutorials/11/11-Error-Handling.djs",
+            "tutorials/12/12-Functions-and-Callbacks.djs",
+            "tutorials/14/14-Array-Operations.djs"
         };
 
         public static int RunResourceInterop()
@@ -60,7 +70,9 @@ namespace MiMFa.Engine.DEAL.Console
 
         public static int Run()
         {
+            string originalCurrentDirectory = Environment.CurrentDirectory;
             string root = Directory.GetCurrentDirectory();
+            string engineRoot = Path.GetFullPath(Path.Combine(root, "..", "MiMFa DEAL.JS - Engine"));
             string sampleRoot = Path.Combine(root, "Sample");
             var failures = new List<string>();
             var samples = Directory.Exists(sampleRoot)
@@ -92,6 +104,11 @@ namespace MiMFa.Engine.DEAL.Console
                     {
                         Program.Initial();
                         initialized = true;
+                        if (Directory.Exists(engineRoot))
+                        {
+                            Program.Engine.Resource.CurrentDirectory = engineRoot;
+                            Environment.CurrentDirectory = engineRoot;
+                        }
 
                         var startupErrors = Program.Engine.Errors.Select(error => error.ToString()).ToArray();
                         if (startupErrors.Length > 0)
@@ -143,9 +160,14 @@ namespace MiMFa.Engine.DEAL.Console
                     Path.Combine(root, "Test", "runtimes", "Resource-Interop-Smoke-Test.js"),
                     failures
                 );
+                RunFileModuleInteropSmokeTest(
+                    Path.Combine(root, "Test", "runtimes", "File-Module-Interop-Smoke-Test.djs"),
+                    failures
+                );
             }
             finally
             {
+                Environment.CurrentDirectory = originalCurrentDirectory;
                 System.Console.SetIn(originalInput);
                 System.Console.SetOut(originalOutput);
             }
@@ -196,8 +218,8 @@ namespace MiMFa.Engine.DEAL.Console
                     .Select(error => error.ToString()).ToArray();
                 if (!libraryFileExists)
                     failures.Add("File module path was not found: " + libraryFile + " (cwd: " + Environment.CurrentDirectory + ").");
-                if (!dependenciesBeforeCompile.Any(dependency => dependency.EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)) &&
-                    !Program.Engine.Dependencies.Any(dependency => dependency.EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)))
+                if (!dependenciesBeforeCompile.Any(dependency => dependency.Replace('\\', '/').EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)) &&
+                    !Program.Engine.Dependencies.Any(dependency => dependency.Replace('\\', '/').EndsWith("deal/data/file.djs", StringComparison.OrdinalIgnoreCase)))
                     failures.Add("File module was not registered as a dependency. Loaded dependencies: " + string.Join(", ", Program.Engine.Dependencies));
 
                 if (output.Errors.Count > 0 || compileLogErrors.Length > 0)
