@@ -7,7 +7,7 @@ Consider discounted be prices.map(price => Number((price * 0.9).toFixed(2)));
 Consider affordable be discounted.filter(price => price < 15);
 Consider total be affordable.reduce((sum, price) => sum + price, 0);
 
-Print {
+print {
     prices: prices,
     discounted: discounted,
     affordable: affordable,
