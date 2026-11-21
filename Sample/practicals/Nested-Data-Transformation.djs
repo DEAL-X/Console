@@ -19,7 +19,7 @@ Consider largestTeam be teams.reduce((largest, team) =>
     team.people > largest.people ? team : largest
 );
 
-Print {
+print {
     teams: teams,
     total_people: totalPeople,
     largest_team: largestTeam
