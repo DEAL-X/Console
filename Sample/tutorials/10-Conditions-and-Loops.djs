@@ -1,6 +1,5 @@
 // Tutorial 10: combine conditions and iteration.
 Use deal/core;
-Use console;
 
 Consider scores be [92, 67, 81, 49, 75, 100];
 Consider results be [];
@@ -15,4 +14,4 @@ For each score of scores,
     Else,
         Append results, { score: score, grade: "D" };
 
-print results;
+application.Display(results);
