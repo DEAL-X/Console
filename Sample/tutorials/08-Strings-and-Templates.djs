@@ -8,7 +8,7 @@ Consider fullName be firstName + " " + lastName;
 Consider message be \`Welcome, \${fullName}. DEAL.JS turns intent into executable code.\`;
 Consider words be message.match(/[A-Za-z.]+/g) || [];
 
-Print {
+print {
     message: message,
     uppercase: fullName.toUpperCase(),
     contains_deal: /DEAL\.JS/.test(message),
