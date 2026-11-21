@@ -16,7 +16,7 @@ configFile.write(JSON.stringify(settings, null, 2));
 
 Consider restored be JSON.parse(configFile.read());
 
-Print {
+print {
     path: configFile.path,
     application: restored.application,
     strict_mode: restored.options.strict,
