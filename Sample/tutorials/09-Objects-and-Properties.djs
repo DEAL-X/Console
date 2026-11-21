@@ -9,7 +9,7 @@ Consider properties be Object.keys(release).map(key => ({
     value: release[key]
 }));
 
-Print {
+print {
     release: release,
     property_count: properties.length,
     properties: properties
