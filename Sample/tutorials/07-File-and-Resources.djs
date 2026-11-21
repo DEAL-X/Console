@@ -2,16 +2,15 @@
 Use deal/core;
 Use deal/data/temporary;
 Use deal/data/file;
-Use console;
 
 Consider notes be File(Temporary.path("deal-tutorial-notes.txt"));
 notes.write("DEAL.JS tutorial notes");
 notes.append("First note");
 notes.append("Second note");
 
-print {
+application.Display({
     path: notes.path,
     lines: Array.from(notes.lines),
     count: notes.count,
     text: notes.read()
-};
+});
