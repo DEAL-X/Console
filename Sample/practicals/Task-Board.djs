@@ -18,7 +18,7 @@ Consider urgent be tasks.filter(task =>
     task.priority === 1 && task.status !== "done"
 );
 
-Print {
+print {
     total: tasks.length,
     by_status: summary,
     urgent_open: urgent
