@@ -15,4 +15,4 @@ For each score of scores,
     Else,
         Append results, { score: score, grade: "D" };
 
-Print results;
+print results;
