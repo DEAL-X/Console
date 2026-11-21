@@ -9,7 +9,7 @@ notes.write("DEAL.JS tutorial notes");
 notes.append("First note");
 notes.append("Second note");
 
-Print {
+print {
     path: notes.path,
     lines: Array.from(notes.lines),
     count: notes.count,
