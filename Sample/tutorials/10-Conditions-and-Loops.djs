@@ -1,5 +1,4 @@
 // Tutorial 10: combine conditions and iteration.
-
 Use deal/core;
 Use console;
 
@@ -9,11 +8,11 @@ Consider results be [];
 For each score of scores,
     If score >= 90,
         Append results, { score: score, grade: "A" };
-    Otherwise if score >= 75,
+    Else if score >= 75,
         Append results, { score: score, grade: "B" };
-    Otherwise if score >= 60,
+    Else if score >= 60,
         Append results, { score: score, grade: "C" };
-    Otherwise,
+    Else,
         Append results, { score: score, grade: "D" };
 
 Print results;
