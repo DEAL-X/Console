@@ -1,6 +1,5 @@
 // Practical: calculate stock value and identify products that need reordering.
 Use deal/core;
-Use console;
 
 Consider products be [
     { name: "Notebook", stock: 18, price: 2.5, reorderAt: 10 },
@@ -21,9 +20,9 @@ Consider reorderList be products
         reorder_at: product.reorderAt
     }));
 
-print {
+application.Display({
     product_count: products.length,
     units_in_stock: products.reduce((total, product) => total + product.stock, 0),
     inventory_value: Number(inventoryValue.toFixed(2)),
     reorder: reorderList
-};
+});
