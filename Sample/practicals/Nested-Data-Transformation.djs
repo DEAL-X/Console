@@ -1,4 +1,4 @@
-// Practical: flatten nested department data and calculate per-team totals.
+// Practical: flatten nested department data and calculate team totals.
 Use deal/core;
 Use console;
 
@@ -8,9 +8,19 @@ Consider departments be [
 ];
 
 Consider teams be departments.flatMap(department =>
-    department.teams.map(team => ({ department: department.name, ...team })));
+    department.teams.map(team => ({
+        department: department.name,
+        name: team.name,
+        people: team.people
+    }))
+);
 Consider totalPeople be teams.reduce((total, team) => total + team.people, 0);
 Consider largestTeam be teams.reduce((largest, team) =>
-    team.people > largest.people ? team : largest);
+    team.people > largest.people ? team : largest
+);
 
-Print { teams: teams, total_people: totalPeople, largest_team: largestTeam };
+Print {
+    teams: teams,
+    total_people: totalPeople,
+    largest_team: largestTeam
+};
