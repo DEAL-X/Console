@@ -14,7 +14,7 @@ async function loadRecord(id) {
 Consider records be await Promise.all([1, 2, 3].map(id => loadRecord(id)));
 Consider activeRecords be records.filter(record => record.active);
 
-Print {
+print {
     loaded: records.length,
     active: activeRecords
 };
