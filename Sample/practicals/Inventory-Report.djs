@@ -21,7 +21,7 @@ Consider reorderList be products
         reorder_at: product.reorderAt
     }));
 
-Print {
+print {
     product_count: products.length,
     units_in_stock: products.reduce((total, product) => total + product.stock, 0),
     inventory_value: Number(inventoryValue.toFixed(2)),
