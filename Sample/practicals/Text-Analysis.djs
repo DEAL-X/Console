@@ -13,7 +13,7 @@ Consider ranking be Array.from(frequencies.entries()).sort((left, right) =>
     right[1] - left[1] || left[0].localeCompare(right[0])
 );
 
-Print {
+print {
     word_count: words.length,
     unique_words: frequencies.size,
     most_common: ranking.slice(0, 5)
