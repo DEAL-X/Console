@@ -1,5 +1,4 @@
 // Tutorial 11: handle expected failures with try/catch.
-
 Use deal/core;
 Use console;
 
@@ -11,12 +10,12 @@ function parsePositiveNumber(value) {
 }
 
 Consider inputs be ["12", "0", "not-a-number", "4.5"];
-Consider results be inputs.map(value => {
-    try {
-        return { input: value, value: parsePositiveNumber(value), error: null };
-    } catch (error) {
-        return { input: value, value: null, error: error.message };
-    }
-});
+Consider results be [];
+
+For each value of inputs,
+    Try,
+        Append results, { input: value, value: parsePositiveNumber(value), error: null };
+    Catch problem,
+        Append results, { input: value, value: null, error: problem.message };
 
 Print results;
