@@ -5,7 +5,8 @@ Use deal/data/file;
 
 Consider settings be {
     application: "DEAL.JS",
-    options: { strict: true, compileOnSave: false },
+    strict: true,
+    compileOnSave: false,
     recent: ["tutorials", "practicals"]
 };
 
@@ -18,6 +19,7 @@ Consider restored be JSON.parse(configFile.read());
 application.Display({
     path: configFile.path,
     application: restored.application,
-    strict_mode: restored.options.strict,
+    strict_mode: restored.strict,
+    compile_on_save: restored.compileOnSave,
     recent_count: restored.recent.length
 });
