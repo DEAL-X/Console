@@ -9,16 +9,24 @@ Consider incoming be [
     { id: 104, email: "edsger@example.test", amount: 42 }
 ];
 
-Consider checked be incoming.map(record => {
-    const errors = [];
-    if (!Number.isInteger(record.id) || record.id <= 0) errors.push("invalid id");
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(record.email)) errors.push("invalid email");
-    if (!Number.isFinite(record.amount) || record.amount < 0) errors.push("invalid amount");
-    return { record, errors };
-});
+Consider accepted be [];
+Consider rejected be [];
 
-Consider accepted be checked.filter(item => item.errors.length === 0).map(item => item.record);
-Consider rejected be checked.filter(item => item.errors.length > 0)
-    .map(item => ({ id: item.record.id, errors: item.errors }));
+For each record of incoming,
+    Consider errors be [];
+    If !Number.isInteger(record.id) || record.id <= 0,
+        Append errors, "invalid id";
+    If !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(record.email),
+        Append errors, "invalid email";
+    If !Number.isFinite(record.amount) || record.amount < 0,
+        Append errors, "invalid amount";
 
-Print { accepted: accepted, rejected: rejected };
+    If errors.length === 0,
+        Append accepted, record;
+    Else,
+        Append rejected, { id: record.id, errors: errors };
+
+Print {
+    accepted: accepted,
+    rejected: rejected
+};
