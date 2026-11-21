@@ -2,7 +2,6 @@
 Use deal/core;
 Use deal/data/temporary;
 Use deal/data/file;
-Use console;
 
 Consider settings be {
     application: "DEAL.JS",
@@ -16,9 +15,9 @@ configFile.write(JSON.stringify(settings, null, 2));
 
 Consider restored be JSON.parse(configFile.read());
 
-print {
+application.Display({
     path: configFile.path,
     application: restored.application,
     strict_mode: restored.options.strict,
     recent_count: restored.recent.length
-};
+});
