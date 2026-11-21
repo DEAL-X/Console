@@ -1,6 +1,5 @@
 // Tutorial 11: handle expected failures with try/catch.
 Use deal/core;
-Use console;
 
 function parsePositiveNumber(value) {
     const number = Number(value);
@@ -18,4 +17,4 @@ For each value of inputs,
     Catch problem,
         Append results, { input: value, value: null, error: problem.message };
 
-print results;
+application.Display(results);
