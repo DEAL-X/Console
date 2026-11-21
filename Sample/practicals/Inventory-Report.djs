@@ -9,11 +9,17 @@ Consider products be [
     { name: "Marker", stock: 14, price: 1.8, reorderAt: 8 }
 ];
 
-Consider inventoryValue be products.reduce((total, product) =>
-    total + product.stock * product.price, 0);
+Consider inventoryValue be products.reduce(
+    (total, product) => total + product.stock * product.price,
+    0
+);
 Consider reorderList be products
     .filter(product => product.stock <= product.reorderAt)
-    .map(product => ({ name: product.name, stock: product.stock, reorderAt: product.reorderAt }));
+    .map(product => ({
+        name: product.name,
+        stock: product.stock,
+        reorder_at: product.reorderAt
+    }));
 
 Print {
     product_count: products.length,
