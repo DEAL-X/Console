@@ -11,10 +11,15 @@ Consider tasks be [
 ];
 
 Consider summary be tasks.reduce((result, task) => {
-    result[task.status] = (result[task.status] ?? 0) + 1;
+    result[task.status] = (result[task.status] || 0) + 1;
     return result;
 }, {});
+Consider urgent be tasks.filter(task =>
+    task.priority === 1 && task.status !== "done"
+);
 
-Consider urgent be tasks.filter(task => task.priority === 1 && task.status !== "done");
-
-Print { total: tasks.length, by_status: summary, urgent_open: urgent };
+Print {
+    total: tasks.length,
+    by_status: summary,
+    urgent_open: urgent
+};
