@@ -14,7 +14,7 @@ Consider values be [-4, 2, 7, 15];
 Consider normalized be transform(values, value => clamp(value, 0, 10));
 Consider labels be transform(normalized, value => value + " points");
 
-Print {
+print {
     original: values,
     normalized: normalized,
     labels: labels
