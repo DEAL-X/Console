@@ -1,6 +1,7 @@
 // Practical: persist and restore a JSON configuration file.
 Use deal/core;
-Use deal/data;
+Use deal/data/temporary;
+Use deal/data/file;
 Use console;
 
 Consider settings be {
@@ -9,8 +10,10 @@ Consider settings be {
     recent: ["tutorials", "practicals"]
 };
 
-Consider configFile be File(Temporary.path("deal-settings.json"), null, false);
+Consider configPath be Temporary.path("deal-settings.json");
+Consider configFile be File(configPath, null, false);
 configFile.write(JSON.stringify(settings, null, 2));
+
 Consider restored be JSON.parse(configFile.read());
 
 Print {
