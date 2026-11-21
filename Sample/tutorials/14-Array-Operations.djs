@@ -1,5 +1,4 @@
 // Tutorial 14: map, filter, and reduce a collection.
-
 Use deal/core;
 Use console;
 
@@ -8,4 +7,9 @@ Consider discounted be prices.map(price => Number((price * 0.9).toFixed(2)));
 Consider affordable be discounted.filter(price => price < 15);
 Consider total be affordable.reduce((sum, price) => sum + price, 0);
 
-Print { prices: prices, discounted: discounted, affordable: affordable, total: Number(total.toFixed(2)) };
+Print {
+    prices: prices,
+    discounted: discounted,
+    affordable: affordable,
+    total: Number(total.toFixed(2))
+};
