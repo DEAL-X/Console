@@ -51,7 +51,7 @@ namespace MiMFa.Engine.DEAL.Console
             Initial();
             if (args.Length > 0)
                 foreach (var arg in args)
-                    Execute(arg);
+                    Display(Engine.Execute(arg));
             else do
             {
                 Survival();
@@ -112,23 +112,23 @@ namespace MiMFa.Engine.DEAL.Console
             System.Console.WriteLine("Visit the DEAL project at https://www.deal.mimfa.net.");
 
             var path = Engine.Resource.Normalize("initial.djs");
-            if (Engine.Resource.Exists(path)) Execute(path);
+            if (Engine.Resource.Exists(path)) Display(Engine.Execute(path));
             System.Console.WriteLine("");
         }
         public static void Survival()
         {
             var path = Engine.Resource.Normalize("survival.djs");
-            if (Engine.Resource.Exists(path)) Execute(path);
+            if (Engine.Resource.Exists(path)) Display(Engine.Execute(path));
             else
             {
                 System.Console.Write("> ");
-                Execute(System.Console.ReadLine());
+                Display(Engine.Execute(System.Console.ReadLine()));
             }
         }
         public static void Final()
         {
             var path = Engine.Resource.Normalize("final.djs");
-            if (Engine.Resource.Exists(path)) Execute(path);
+            if (Engine.Resource.Exists(path)) Display(Engine.Execute(path));
             else
             {
                 Interpreter?.CollectGarbage(true);
@@ -154,42 +154,6 @@ namespace MiMFa.Engine.DEAL.Console
         public static void Stop()
         {
             IsAlive = false;
-        }
-
-        public static string Compile(string value)
-        {
-            try
-            {
-                return Engine.Compile(value).Content;
-            }
-            catch (Exception ex) { Engine.OnLogged(ex.Message, LogStatus.Error); }
-            return null;
-        }
-        public static object Evaluate(string value)
-        {
-            try
-            {
-                return Engine.Execute(value);
-            }
-            catch (Exception ex) { Engine.OnLogged(ex.Message, LogStatus.Error); }
-            return null;
-        }
-        public static void Execute(string value)
-        {
-            try
-            {
-                Display(Engine.Execute(value));
-            }
-            catch (Exception ex) { Engine.OnLogged(ex.Message, LogStatus.Error); }
-        }
-        public static float? Compare(string value1, string value2, string pattern = @"\w+|\W+", RegexOptions options = RegexOptions.None)
-        {
-            try
-            {
-                return Engine.Compare(value1, value2, pattern, options);
-            }
-            catch (Exception ex) { Engine.OnLogged(ex.Message, LogStatus.Error); }
-            return null;
         }
 
         public static void Display(object value)
